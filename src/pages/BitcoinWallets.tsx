@@ -9,7 +9,7 @@ import {
   Search, ShieldAlert, Coins, RefreshCw, Copy, Check, ExternalLink, 
   Info, TrendingUp, Landmark, Award, Calendar, ChevronDown, ChevronUp, EyeOff
 } from 'lucide-react';
-import { getFallbackWallets } from '../data/bitcoinWalletsData';
+import { getFallbackWallets, getBtcPriceUsd } from '../data/bitcoinWalletsData';
 
 interface BitcoinWallet {
   rank: number;
@@ -47,19 +47,36 @@ const BitcoinWallets: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch('/api/bitcoin-wallets');
-      const contentType = response.headers.get('content-type') || '';
-      
-      if (!response.ok || !contentType.includes('application/json')) {
-        throw new Error('API unavailable, loading local fallback data');
+
+      let currentPrice = 65000;
+      try {
+        currentPrice = await getBtcPriceUsd();
+      } catch (priceErr) {
+        console.warn('Live price fetch warning:', priceErr);
       }
-      const data = await response.json();
-      setWallets(data.wallets || []);
-      setBtcPrice(data.btcPrice || 65000);
-      setStatusMode(data.source === 'live' ? 'live' : 'cached');
+      setBtcPrice(currentPrice);
+
+      try {
+        const response = await fetch('/api/bitcoin-wallets');
+        const contentType = response.headers.get('content-type') || '';
+        if (response.ok && contentType.includes('application/json')) {
+          const data = await response.json();
+          if (data.wallets && data.wallets.length > 0) {
+            setWallets(data.wallets);
+            if (data.btcPrice) setBtcPrice(data.btcPrice);
+            setStatusMode(data.source === 'live' ? 'live' : 'cached');
+            return;
+          }
+        }
+      } catch (apiErr) {
+        // Express local server or API not present, fall through to client generator
+      }
+
+      const fallback = getFallbackWallets(currentPrice);
+      setWallets(fallback);
+      setStatusMode('cached');
     } catch (err: any) {
-      console.warn('Backend API call note:', err.message);
-      // Client-side instant fallback so page never breaks or shows 404
+      console.warn('Wallet loading error:', err);
       const fallback = getFallbackWallets(65000);
       setWallets(fallback);
       setBtcPrice(65000);
