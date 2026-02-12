@@ -1,0 +1,5 @@
+{
+  "name": "Fiat Erosion Tracker",
+  "description": "A high-performance fintech utility visualizing the real-time and historical loss of purchasing power due to inflation, featuring a live depreciation ticker and historical comparison tools.",
+  "requestFramePermissions": []
+}
