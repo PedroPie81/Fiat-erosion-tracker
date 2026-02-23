@@ -1,0 +1,32 @@
+
+import { CurrencyConfig } from './types';
+
+export const CURRENCY_CONFIGS: Record<string, CurrencyConfig> = {
+  GBP: {
+    code: 'GBP',
+    symbol: '£',
+    officialRate: 0.034, // Feb 2026 estimate: ~3.4%
+    altRate: 0.089,      // ~3.4% + 5.5% proxy
+    officialSource: "Official CPI: Government-reported inflation rate from ONS data (latest available as of Feb 2026: ~3.4% for Dec 2025).",
+    altDescription: "Alternative estimate: Higher rate based on ShadowStats/asset price trends (~official + 5.5%). US-based reference; governments may understate CPI/HICP globally."
+  },
+  USD: {
+    code: 'USD',
+    symbol: '$',
+    officialRate: 0.024, // Feb 2026 estimate: ~2.4%
+    altRate: 0.079,      // ~2.4% + 5.5% proxy
+    officialSource: "Official CPI: Government-reported inflation rate from BLS data (latest available as of Feb 2026: ~2.4% for Jan 2026).",
+    altDescription: "Alternative estimate: Higher rate based on ShadowStats/asset price trends (~official + 5.5%). US-based reference; governments may understate CPI/HICP globally."
+  },
+  EUR: {
+    code: 'EUR',
+    symbol: '€',
+    officialRate: 0.017, // Feb 2026 estimate: ~1.7%
+    altRate: 0.072,      // ~1.7% + 5.5% proxy
+    officialSource: "Official HICP: Government-reported inflation rate from Eurostat data (latest available as of Feb 2026: ~1.7% for Jan 2026).",
+    altDescription: "Alternative estimate: Higher rate based on ShadowStats/asset price trends (~official + 5.5%). US-based reference; governments may understate CPI/HICP globally."
+  }
+};
+
+export const INITIAL_SAVINGS_DEFAULT = 100000;
+export const INITIAL_ASSET_VALUE_DEFAULT = 1000000;
