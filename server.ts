@@ -1,8 +1,5 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
-import fs from 'fs';
-import git from 'isomorphic-git';
-import http from 'isomorphic-git/http/node';
 
 async function startServer() {
   const app = express();
@@ -13,70 +10,6 @@ async function startServer() {
   // Health check
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", env: process.env.NODE_ENV });
-  });
-
-  // API route for GitHub sync
-  app.post("/api/github-sync", async (req, res) => {
-    const dir = process.cwd();
-    const token = process.env.GITHUB_TOKEN;
-    
-    if (!token) {
-      return res.status(400).json({ error: "GITHUB_TOKEN not found in environment" });
-    }
-
-    try {
-      // Initialize if not already
-      try {
-        await git.init({ fs, dir });
-      } catch (e) {}
-      
-      // Add remote if not already
-      try {
-        await git.addRemote({
-          fs,
-          dir,
-          remote: 'origin',
-          url: 'https://github.com/PedroPie81/Fiat-erosion-tracker.git'
-        });
-      } catch (e) {}
-      
-      const branch = (await git.currentBranch({ fs, dir })) || 'master';
-      
-      // Stage all files recursively
-      const globby = (await import('globby')).globby;
-      const paths = await globby(['**/*', '**/.*'], {
-        ignore: ['.git/**', 'node_modules/**', 'dist/**'],
-        dot: true
-      });
-      
-      for (const filepath of paths) {
-        await git.add({ fs, dir, filepath });
-      }
-      
-      await git.commit({
-        fs,
-        dir,
-        author: {
-          name: 'AI Assistant',
-          email: 'assistant@aistudio.google.com'
-        },
-        message: 'Sync from AI Studio'
-      });
-
-      await git.push({
-        fs,
-        http,
-        dir,
-        remote: 'origin',
-        ref: branch,
-        onAuth: () => ({ username: token, password: '' })
-      });
-
-      res.json({ success: true, message: "Successfully pushed to GitHub" });
-    } catch (err: any) {
-      console.error('Error in git operation:', err);
-      res.status(500).json({ error: err.message });
-    }
   });
 
   // Vite middleware for development
