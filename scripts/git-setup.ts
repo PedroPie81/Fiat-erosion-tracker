@@ -38,12 +38,15 @@ async function setup() {
     if (token) {
       console.log('GITHUB_TOKEN found, attempting to push...');
       
-      // Stage all files
-      const files = await fs.promises.readdir(dir);
-      for (const file of files) {
-        if (file !== '.git' && file !== 'node_modules') {
-          await git.add({ fs, dir, filepath: file });
-        }
+      // Stage all files recursively
+      const { globby } = await import('globby');
+      const paths = await globby(['**/*', '**/.*'], {
+        ignore: ['.git/**', 'node_modules/**', 'dist/**'],
+        dot: true
+      });
+      
+      for (const filepath of paths) {
+        await git.add({ fs, dir, filepath });
       }
       
       await git.commit({
