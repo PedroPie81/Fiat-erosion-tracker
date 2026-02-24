@@ -10,6 +10,11 @@ async function startServer() {
 
   app.use(express.json());
 
+  // Health check
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok", env: process.env.NODE_ENV });
+  });
+
   // API route for GitHub sync
   app.post("/api/github-sync", async (req, res) => {
     const dir = process.cwd();
@@ -86,7 +91,8 @@ async function startServer() {
   }
 
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
+    console.log(`Mode: ${process.env.NODE_ENV || 'development'}`);
   });
 }
 
