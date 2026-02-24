@@ -37,12 +37,15 @@ async function startServer() {
       
       const branch = (await git.currentBranch({ fs, dir })) || 'master';
       
-      // Stage all files
-      const files = await fs.promises.readdir(dir);
-      for (const file of files) {
-        if (file !== '.git' && file !== 'node_modules' && file !== 'dist') {
-          await git.add({ fs, dir, filepath: file });
-        }
+      // Stage all files recursively
+      const globby = (await import('globby')).globby;
+      const paths = await globby(['**/*', '**/.*'], {
+        ignore: ['.git/**', 'node_modules/**', 'dist/**'],
+        dot: true
+      });
+      
+      for (const filepath of paths) {
+        await git.add({ fs, dir, filepath });
       }
       
       await git.commit({
