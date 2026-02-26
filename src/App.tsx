@@ -477,13 +477,7 @@ const App: React.FC = () => {
           </div>
 
           {/* Chart 2: Asset Gap Over Time */}
-          <div className="my-8 md:my-12 lg:my-16 flex justify-center">
-            {/* AdSense Placeholder - Responsive Horizontal Banner */}
-            <div className="w-full max-w-[728px] h-[90px] md:h-[250px] bg-zinc-800/50 border border-zinc-700 rounded-lg flex items-center justify-center text-zinc-400">
-              AdSense Placeholder: Insert responsive ad unit here (e.g., 300x250 or 728x90)
-            </div>
-          </div>
-          <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8">
+          <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 mt-8 md:mt-12 lg:mt-16">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
               <div>
                 <div className="flex items-center gap-2">
@@ -535,13 +529,7 @@ const App: React.FC = () => {
           </div>
 
           {/* Third Chart: Growth & Erosion Comparison (View Toggle) */}
-          <div className="my-8 md:my-12 lg:my-16 flex justify-center">
-            {/* AdSense Placeholder - Responsive Horizontal Banner */}
-            <div className="w-full max-w-[728px] h-[90px] md:h-[250px] bg-zinc-800/50 border border-zinc-700 rounded-lg flex items-center justify-center text-zinc-400">
-              AdSense Placeholder: Insert responsive ad unit here (e.g., 300x250 or 728x90)
-            </div>
-          </div>
-          <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8">
+          <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 mt-8 md:mt-12 lg:mt-16">
             <div className="flex flex-col mb-8 gap-4">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
@@ -656,12 +644,6 @@ const App: React.FC = () => {
             </Link>
           </div>
 
-          <div className="my-8 md:my-12 flex justify-center">
-            {/* Bottom AdSense Placeholder - Responsive Banner */}
-            <div className="w-full max-w-[728px] h-[90px] md:h-[250px] bg-zinc-800/50 border border-zinc-700 rounded-lg flex items-center justify-center text-zinc-400">
-              AdSense Placeholder: Bottom responsive ad (full-width on mobile)
-            </div>
-          </div>
         </div>
       </main>
 
