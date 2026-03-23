@@ -1,11 +1,10 @@
-
 export type Currency = 'GBP' | 'USD' | 'EUR';
 
 export interface CurrencyConfig {
-  code: Currency;
+  code: string;
   symbol: string;
-  officialRate: number; // Annual %
-  altRate: number;      // Annual %
+  officialRate: number;
+  altRate: number;
   officialSource: string;
   altDescription: string;
 }

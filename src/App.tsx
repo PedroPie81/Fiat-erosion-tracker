@@ -1,5 +1,5 @@
-
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, 
   ResponsiveContainer, Legend, ReferenceLine 
@@ -39,15 +39,38 @@ ChartJS.register(
   ChartLegend
 );
 
+const verticalLinePlugin = {
+  id: 'verticalLine',
+  afterDraw: (chart: any) => {
+    if (chart.tooltip?._active?.length) {
+      const activePoint = chart.tooltip._active[0];
+      const ctx = chart.ctx;
+      const x = activePoint.element.x;
+      const topY = chart.scales.y.top;
+      const bottomY = chart.scales.y.bottom;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, topY);
+      ctx.lineTo(x, bottomY);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#52525b';
+      ctx.setLineDash([5, 5]);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+};
+
 const App: React.FC = () => {
   const [currency, setCurrency] = useState<Currency>('GBP');
-  const [savings, setSavings] = useState(INITIAL_SAVINGS_DEFAULT);
-  const [assetValue, setAssetValue] = useState(INITIAL_ASSET_VALUE_DEFAULT);
+  const [savings, setSavings] = useState<number | string>(INITIAL_SAVINGS_DEFAULT);
+  const [assetValue, setAssetValue] = useState<number | string>(INITIAL_ASSET_VALUE_DEFAULT);
   
   // RESTRUCTURED: Three inputs for the performance chart
-  const [accumInitialSavings, setAccumInitialSavings] = useState(100000);
-  const [monthlyAddition, setMonthlyAddition] = useState(500);
-  const [accumInitialAsset, setAccumInitialAsset] = useState(1000000);
+  const [accumInitialSavings, setAccumInitialSavings] = useState<number | string>(100000);
+  const [monthlyAddition, setMonthlyAddition] = useState<number | string>(500);
+  const [accumInitialAsset, setAccumInitialAsset] = useState<number | string>(1000000);
   
   // NEW: Toggle between Indexed and Absolute views
   const [chartViewMode, setChartViewMode] = useState<'indexed' | 'absolute'>('indexed');
@@ -64,24 +87,31 @@ const App: React.FC = () => {
   const config = CURRENCY_CONFIGS[currency];
 
   // FIXED: Improved parsing handlers to prevent values getting "stuck"
-  const handleNumericInput = (setter: React.Dispatch<React.SetStateAction<number>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNumericInput = (setter: React.Dispatch<React.SetStateAction<number | string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value.replace(/[^0-9.]/g, '');
     if (rawValue === '') {
-      setter(0);
+      setter('');
       return;
     }
-    const val = parseFloat(rawValue);
-    if (!isNaN(val)) setter(val);
+    setter(rawValue);
   };
 
   const handleGlobalSavingsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseFloat(e.target.value.replace(/[^0-9.]/g, ''));
-    if (!isNaN(val)) setSavings(val);
+    const rawValue = e.target.value.replace(/[^0-9.]/g, '');
+    if (rawValue === '') {
+      setSavings('');
+      return;
+    }
+    setSavings(rawValue);
   };
 
   const handleGlobalAssetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseFloat(e.target.value.replace(/[^0-9.]/g, ''));
-    if (!isNaN(val)) setAssetValue(val);
+    const rawValue = e.target.value.replace(/[^0-9.]/g, '');
+    if (rawValue === '') {
+      setAssetValue('');
+      return;
+    }
+    setAssetValue(rawValue);
   };
 
   useEffect(() => {
@@ -95,12 +125,13 @@ const App: React.FC = () => {
   const erosionData = useMemo(() => Array.from({ length: lookbackYears + projectionYears + 1 }, (_, i) => {
     const yearOffset = i - lookbackYears;
     const year = new Date().getFullYear() + yearOffset;
-    const officialDecay = savings * Math.pow(1 - config.officialRate, yearOffset);
-    const altDecay = savings * Math.pow(1 - config.altRate, yearOffset);
+    const parsedSavings = typeof savings === 'string' ? parseFloat(savings) || 0 : savings;
+    const officialDecay = parsedSavings * Math.pow(1 - config.officialRate, yearOffset);
+    const altDecay = parsedSavings * Math.pow(1 - config.altRate, yearOffset);
 
     return {
       year,
-      nominal: savings,
+      nominal: parsedSavings,
       official: Math.round(officialDecay),
       alternative: Math.round(altDecay),
       isCurrent: yearOffset === 0
@@ -111,9 +142,11 @@ const App: React.FC = () => {
   const assetGapData = useMemo(() => Array.from({ length: lookbackYears + projectionYears + 1 }, (_, i) => {
     const yearOffset = i - lookbackYears;
     const year = new Date().getFullYear() + yearOffset;
-    const stagnantCash = savings;
-    const officialAsset = assetValue * Math.pow(1 + config.officialRate, yearOffset);
-    const shadowAsset = assetValue * Math.pow(1 + config.altRate, yearOffset);
+    const parsedSavings = typeof savings === 'string' ? parseFloat(savings) || 0 : savings;
+    const parsedAssetValue = typeof assetValue === 'string' ? parseFloat(assetValue) || 0 : assetValue;
+    const stagnantCash = parsedSavings;
+    const officialAsset = parsedAssetValue * Math.pow(1 + config.officialRate, yearOffset);
+    const shadowAsset = parsedAssetValue * Math.pow(1 + config.altRate, yearOffset);
 
     return {
       year, 
@@ -141,17 +174,21 @@ const App: React.FC = () => {
       shadow: { abs: [], pct: [] } 
     };
     
-    const baseSavings = accumInitialSavings || 1;
-    const baseAsset = accumInitialAsset || 1;
+    const parsedAccumInitialSavings = typeof accumInitialSavings === 'string' ? parseFloat(accumInitialSavings) || 0 : accumInitialSavings;
+    const parsedMonthlyAddition = typeof monthlyAddition === 'string' ? parseFloat(monthlyAddition) || 0 : monthlyAddition;
+    const parsedAccumInitialAsset = typeof accumInitialAsset === 'string' ? parseFloat(accumInitialAsset) || 0 : accumInitialAsset;
+    
+    const baseSavings = parsedAccumInitialSavings || 1;
+    const baseAsset = parsedAccumInitialAsset || 1;
 
     for (let yearIdx = 0; yearIdx <= projectionYears; yearIdx++) {
       const totalMonths = yearIdx * 12;
       
       // Absolute Calculations
-      const absNominal = accumInitialSavings;
-      const absAdditions = accumInitialSavings + (monthlyAddition * totalMonths);
-      const absOfficial = accumInitialAsset * Math.pow(1 + config.officialRate, yearIdx);
-      const absShadow = accumInitialAsset * Math.pow(1 + config.altRate, yearIdx);
+      const absNominal = parsedAccumInitialSavings;
+      const absAdditions = parsedAccumInitialSavings + (parsedMonthlyAddition * totalMonths);
+      const absOfficial = parsedAccumInitialAsset * Math.pow(1 + config.officialRate, yearIdx);
+      const absShadow = parsedAccumInitialAsset * Math.pow(1 + config.altRate, yearIdx);
 
       // Percentage Calculations (Relative to Start)
       const pctNominal = 100;
@@ -191,6 +228,7 @@ const App: React.FC = () => {
           borderDash: [5, 5],
           tension: 0.1,
           pointRadius: 0,
+          pointHoverRadius: 6,
         },
         {
           label: 'Savings + Monthly Additions',
@@ -201,6 +239,7 @@ const App: React.FC = () => {
           borderWidth: 3,
           tension: 0.1,
           pointRadius: 0,
+          pointHoverRadius: 6,
         },
         {
           label: 'Asset Official (CPI Floor)',
@@ -211,6 +250,7 @@ const App: React.FC = () => {
           borderWidth: 3,
           tension: 0.1,
           pointRadius: 0,
+          pointHoverRadius: 6,
         },
         {
           label: 'Asset Shadow/Alternative',
@@ -222,6 +262,7 @@ const App: React.FC = () => {
           borderDash: [2, 2],
           tension: 0.1,
           pointRadius: 0,
+          pointHoverRadius: 6,
         },
       ],
     };
@@ -235,9 +276,15 @@ const App: React.FC = () => {
       mode: 'index' as const,
       intersect: false, // Allows tooltip to appear anywhere on the vertical axis
     },
+    onHover: (event: any, chartElement: any) => {
+      const target = event.native ? event.native.target : event.target;
+      if (target) {
+        target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+      }
+    },
     plugins: {
       legend: {
-        position: 'top' as const,
+        position: 'bottom' as const,
         labels: { color: '#71717a', font: { size: 11, weight: 'bold' as any }, padding: 15 },
       },
       tooltip: {
@@ -295,7 +342,7 @@ const App: React.FC = () => {
         <div className="max-w-3xl">
           <button 
             onClick={() => setShowAbout(!showAbout)}
-            className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-zinc-500 hover:text-[#f97316] transition-colors group"
+            className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-zinc-500 hover:text-[#f97316] transition-colors group mb-6"
           >
             <span>About this tool & Disclaimer</span>
             <svg 
@@ -348,7 +395,7 @@ const App: React.FC = () => {
               <span className="absolute left-4 text-zinc-500 font-medium">{config.symbol}</span>
               <input 
                 type="text" 
-                value={savings === 0 ? '' : savings.toLocaleString()} 
+                value={savings === '' ? '' : Number(savings).toLocaleString()} 
                 onChange={handleGlobalSavingsChange}
                 className="bg-zinc-950 border border-zinc-800 pl-8 pr-4 py-3 rounded-lg text-white w-full focus:outline-none focus:ring-2 focus:ring-[#f97316] transition-all font-semibold"
               />
@@ -361,14 +408,14 @@ const App: React.FC = () => {
           <TickerBox 
             label="Official CPI Purchasing Power" 
             tooltipText={config.officialSource}
-            initialValue={savings}
+            initialValue={typeof savings === 'string' ? parseFloat(savings) || 0 : savings}
             annualRate={config.officialRate}
             config={config}
           />
           <TickerBox 
             label="Alternative Estimate Power" 
             tooltipText={config.altDescription}
-            initialValue={savings}
+            initialValue={typeof savings === 'string' ? parseFloat(savings) || 0 : savings}
             annualRate={config.altRate}
             config={config}
           />
@@ -396,13 +443,18 @@ const App: React.FC = () => {
           {/* Chart 1: Recharts - Purchasing Power Analysis */}
           <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8">
             <div className="mb-8">
-              <h3 className="text-xl font-bold text-white">Purchasing Power Analysis</h3>
-              <p className="text-zinc-500 text-sm">Nominal capital vs real-world value over time</p>
+              <div className="flex items-center gap-2">
+                <h3 className="text-xl font-bold text-white">Purchasing Power Analysis</h3>
+                <Tooltip text="Shows how inflation erodes the real value of your nominal savings over time.">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-500 hover:text-zinc-300 transition-colors"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                </Tooltip>
+              </div>
+              <p className="text-zinc-500 text-sm mt-1">Nominal capital vs real-world value over time</p>
             </div>
             
             <div className="h-[400px] w-full relative">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={erosionData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <LineChart data={erosionData} margin={{ top: 5, right: 30, left: 20, bottom: 40 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
                   <XAxis dataKey="year" stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis 
@@ -414,7 +466,7 @@ const App: React.FC = () => {
                     itemStyle={{ fontWeight: 'bold' }}
                     labelStyle={{ color: '#a1a1aa', marginBottom: '4px' }}
                   />
-                  <Legend />
+                  <Legend verticalAlign="bottom" wrapperStyle={{ paddingTop: '30px' }} />
                   <ReferenceLine x={new Date().getFullYear()} stroke="#f97316" strokeDasharray="3 3" label={{ value: 'TODAY', position: 'top', fill: '#f97316', fontSize: 10, fontWeight: 'bold' }} />
                   <Line type="monotone" dataKey="nominal" name="Nominal Value" stroke="#71717a" strokeWidth={2} dot={false} strokeDasharray="5 5" />
                   <Line type="monotone" dataKey="official" name="Official Power" stroke="#3b82f6" strokeWidth={3} dot={false} />
@@ -425,11 +477,16 @@ const App: React.FC = () => {
           </div>
 
           {/* Chart 2: Asset Gap Over Time */}
-          <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8">
+          <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 mt-8 md:mt-12 lg:mt-16">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
               <div>
-                <h3 className="text-xl font-bold text-white">Asset Gap Over Time</h3>
-                <p className="text-zinc-500 text-sm">Stagnant cash vs Official & Shadow asset growth floor</p>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xl font-bold text-white">Asset Gap Over Time</h3>
+                  <Tooltip text="Illustrates the widening gap between holding cash and holding assets that appreciate with inflation.">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-500 hover:text-zinc-300 transition-colors"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                  </Tooltip>
+                </div>
+                <p className="text-zinc-500 text-sm mt-1">Stagnant cash vs Official & Shadow asset growth floor</p>
               </div>
               <div className="flex flex-col gap-1 w-full md:w-48">
                 <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Initial Asset Value</label>
@@ -437,7 +494,7 @@ const App: React.FC = () => {
                   <span className="absolute left-3 text-zinc-500 font-medium">{config.symbol}</span>
                   <input 
                     type="text" 
-                    value={assetValue === 0 ? '' : assetValue.toLocaleString()} 
+                    value={assetValue === '' ? '' : Number(assetValue).toLocaleString()} 
                     onChange={handleGlobalAssetChange}
                     className="bg-zinc-950 border border-zinc-800 pl-7 pr-3 py-2 rounded text-sm text-white focus:ring-1 focus:ring-[#f97316] w-full"
                   />
@@ -447,7 +504,7 @@ const App: React.FC = () => {
 
             <div className="h-[400px] w-full relative">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={assetGapData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <LineChart data={assetGapData} margin={{ top: 5, right: 30, left: 20, bottom: 60 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
                   <XAxis dataKey="year" stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis 
@@ -458,7 +515,7 @@ const App: React.FC = () => {
                     contentStyle={{ backgroundColor: '#18181b', border: '1px solid #3f3f46', borderRadius: '8px' }}
                     formatter={(val) => [`${config.symbol}${val.toLocaleString()}`]}
                   />
-                  <Legend />
+                  <Legend verticalAlign="bottom" height={60} wrapperStyle={{ paddingTop: '20px' }} />
                   <ReferenceLine x={new Date().getFullYear()} stroke="#f97316" strokeDasharray="3 3" label={{ value: 'TODAY', position: 'top', fill: '#f97316', fontSize: 10, fontWeight: 'bold' }} />
                   <Line type="monotone" dataKey="stagnantCash" name="Stagnant Cash" stroke="#71717a" strokeWidth={2} dot={false} strokeDasharray="5 5" />
                   <Line type="monotone" dataKey="officialAsset" name="Official Asset Increase" stroke="#ef4444" strokeWidth={3} dot={false} />
@@ -466,18 +523,23 @@ const App: React.FC = () => {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div className="mt-4 text-xs text-zinc-600 text-center italic">
+            <div className="mt-12 text-xs text-zinc-600 text-center italic">
               Asset lines grow nominally at official CPI ({ (config.officialRate * 100).toFixed(1) }%) and shadow ({ (config.altRate * 100).toFixed(1) }%) inflation rates.
             </div>
           </div>
 
           {/* Third Chart: Growth & Erosion Comparison (View Toggle) */}
-          <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8">
+          <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 mt-8 md:mt-12 lg:mt-16">
             <div className="flex flex-col mb-8 gap-4">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                  <h3 className="text-xl font-bold text-white">Disparity Breakdown: Savings vs Assets</h3>
-                  <p className="text-zinc-500 text-sm">Performance comparison with dynamic view modes</p>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-white">Disparity Breakdown: Savings vs Assets</h3>
+                    <Tooltip text="Illustrates that even with additional savings, the asset is still appreciating quicker (potentially).">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-500 hover:text-zinc-300 transition-colors"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    </Tooltip>
+                  </div>
+                  <p className="text-zinc-500 text-sm mt-1">Performance comparison with dynamic view modes</p>
                 </div>
                 {/* NEW: View Mode Toggle */}
                 <div className="flex items-center bg-zinc-950 border border-zinc-800 p-1 rounded-lg">
@@ -503,7 +565,7 @@ const App: React.FC = () => {
                       <span className="absolute left-3 text-zinc-500 text-xs font-bold">{config.symbol}</span>
                       <input 
                         type="text" 
-                        value={accumInitialSavings === 0 ? '' : accumInitialSavings.toLocaleString()} 
+                        value={accumInitialSavings === '' ? '' : Number(accumInitialSavings).toLocaleString()} 
                         onChange={handleNumericInput(setAccumInitialSavings)}
                         className="bg-zinc-950 border border-zinc-800 pl-7 pr-3 py-2 rounded text-sm text-white focus:ring-1 focus:ring-[#f97316] w-full font-semibold"
                       />
@@ -515,7 +577,7 @@ const App: React.FC = () => {
                       <span className="absolute left-3 text-zinc-500 text-xs font-bold">{config.symbol}</span>
                       <input 
                         type="text" 
-                        value={monthlyAddition === 0 ? '' : monthlyAddition.toLocaleString()} 
+                        value={monthlyAddition === '' ? '' : Number(monthlyAddition).toLocaleString()} 
                         onChange={handleNumericInput(setMonthlyAddition)}
                         className="bg-zinc-950 border border-zinc-800 pl-7 pr-3 py-2 rounded text-sm text-white focus:ring-1 focus:ring-[#f97316] w-full font-semibold"
                       />
@@ -532,7 +594,7 @@ const App: React.FC = () => {
                       <span className="absolute left-3 text-zinc-500 text-xs font-bold">{config.symbol}</span>
                       <input 
                         type="text" 
-                        value={accumInitialAsset === 0 ? '' : accumInitialAsset.toLocaleString()} 
+                        value={accumInitialAsset === '' ? '' : Number(accumInitialAsset).toLocaleString()} 
                         onChange={handleNumericInput(setAccumInitialAsset)}
                         className="bg-zinc-950 border border-zinc-800 pl-7 pr-3 py-2 rounded text-sm text-white focus:ring-1 focus:ring-[#f97316] w-full font-semibold"
                       />
@@ -546,15 +608,17 @@ const App: React.FC = () => {
               className="w-full h-[400px] min-h-[300px] relative overflow-hidden"
             >
               {isMounted && (
-                <ChartLine 
-                  key={`disparity-chart-${currency}-${chartViewMode}`} 
-                  data={accumulatedChartData} 
-                  options={chartOptions} 
-                />
+                <div key={`disparity-chart-wrapper-${currency}-${chartViewMode}`} className="h-full w-full">
+                  <ChartLine 
+                    data={accumulatedChartData} 
+                    options={chartOptions} 
+                    plugins={[verticalLinePlugin]}
+                  />
+                </div>
               )}
             </div>
 
-            <div className="mt-6 flex flex-col items-center gap-4">
+            <div className="mt-12 flex flex-col items-center gap-4">
               <p className="text-xs text-zinc-500 italic text-center max-w-3xl leading-relaxed">
                 All lines {chartViewMode === 'indexed' ? 'indexed to 100' : 'plotted in absolute terms'} for {chartViewMode === 'indexed' ? 'fair comparison of % performance' : 'clear absolute disparity'}. 
                 <span className="block mt-2">
@@ -563,6 +627,29 @@ const App: React.FC = () => {
               </p>
             </div>
           </div>
+          
+          {/* NEW: Informational Page Links */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-4 flex-wrap">
+            <Link 
+              to="/history" 
+              className="w-full sm:w-auto px-6 py-3 bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 rounded-xl text-zinc-300 hover:text-white font-bold tracking-wide transition-all text-center shadow-sm hover:shadow-md"
+            >
+              History of Money
+            </Link>
+            <Link 
+              to="/cbdc" 
+              className="w-full sm:w-auto px-6 py-3 bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 rounded-xl text-zinc-300 hover:text-white font-bold tracking-wide transition-all text-center shadow-sm hover:shadow-md"
+            >
+              CBDCs and Control Risks
+            </Link>
+            <Link 
+              to="/inflation" 
+              className="w-full sm:w-auto px-6 py-3 bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 rounded-xl text-zinc-300 hover:text-white font-bold tracking-wide transition-all text-center shadow-sm hover:shadow-md"
+            >
+              What Is Inflation?
+            </Link>
+          </div>
+
         </div>
       </main>
 
@@ -581,7 +668,7 @@ const App: React.FC = () => {
             </p>
             <p className="text-zinc-400 font-medium">© 2026 Peter Adam J (@Peteradamj)</p>
             <p className="text-zinc-600 text-xs max-w-xl text-balance">
-              Personal/educational tool • Not financial advice • <a href="https://x.com/Peteradamj" target="_blank" rel="noopener noreferrer" className="text-[#f97316] hover:underline">Follow on X</a> • All rights reserved. 
+              Personal/educational tool • Not financial advice • <a href="https://x.com/Peteradamj" target="_blank" rel="noopener noreferrer" className="text-[#f97316] hover:underline">Follow on X</a> • <Link to="/privacy" className="text-[#f97316] hover:underline">Privacy Policy</Link> • All rights reserved. 
               No commercial reproduction without permission.
             </p>
           </div>

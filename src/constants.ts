@@ -1,4 +1,3 @@
-
 import { CurrencyConfig } from './types';
 
 export const CURRENCY_CONFIGS: Record<string, CurrencyConfig> = {
@@ -30,3 +29,4 @@ export const CURRENCY_CONFIGS: Record<string, CurrencyConfig> = {
 
 export const INITIAL_SAVINGS_DEFAULT = 100000;
 export const INITIAL_ASSET_VALUE_DEFAULT = 1000000;
+
