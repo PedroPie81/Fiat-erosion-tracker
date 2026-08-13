@@ -4,17 +4,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, 
   ResponsiveContainer, Legend, ReferenceLine 
 } from 'recharts';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  LogarithmicScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip as ChartTooltip,
-  Legend as ChartLegend,
-} from 'chart.js';
+import { Chart as ChartJS, registerables } from 'chart.js';
 import { Line as ChartLine } from 'react-chartjs-2';
 
 import { 
@@ -28,16 +18,7 @@ import TickerBox from './components/TickerBox';
 import Tooltip from './components/Tooltip';
 
 // Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  LogarithmicScale,
-  PointElement,
-  LineElement,
-  Title,
-  ChartTooltip,
-  ChartLegend
-);
+ChartJS.register(...registerables);
 
 const verticalLinePlugin = {
   id: 'verticalLine',
@@ -630,6 +611,12 @@ const App: React.FC = () => {
           
           {/* NEW: Informational Page Links */}
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-4 flex-wrap">
+            <Link 
+              to="/bitcoin-wallets" 
+              className="w-full sm:w-auto px-6 py-3 bg-amber-950/40 hover:bg-amber-900/40 border border-amber-900/50 hover:border-amber-800 rounded-xl text-amber-300 hover:text-white font-extrabold tracking-wide transition-all text-center shadow-md hover:shadow-lg flex items-center justify-center gap-2 animate-pulse"
+            >
+              🐋 Top 100 Bitcoin Wallets
+            </Link>
             <Link 
               to="/history" 
               className="w-full sm:w-auto px-6 py-3 bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 rounded-xl text-zinc-300 hover:text-white font-bold tracking-wide transition-all text-center shadow-sm hover:shadow-md"

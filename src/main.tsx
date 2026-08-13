@@ -7,6 +7,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import HistoryPage from './pages/HistoryPage';
 import CbdcPage from './pages/CbdcPage';
 import InflationPage from './pages/InflationPage';
+import BitcoinWallets from './pages/BitcoinWallets';
 import './index.css';
 
 const rootElement = document.getElementById('root');
@@ -26,6 +27,7 @@ root.render(
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/cbdc" element={<CbdcPage />} />
           <Route path="/inflation" element={<InflationPage />} />
+          <Route path="/bitcoin-wallets" element={<BitcoinWallets />} />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>

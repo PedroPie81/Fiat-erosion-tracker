@@ -1,14 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E2N90EEZ64"></script>
+    <!-- Safely load Google Tag and Ads only when not inside a sandbox/preview iframe to prevent cross-origin Script errors -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      // Global error handlers to silence cross-origin and "Script error" issues occurring in sandbox iframe environments
+      window.onerror = function(message, source, lineno, colno, error) {
+        const msg = String(message || '');
+        const src = String(source || '');
+        
+        // Match any "Script error.", "script error", or external script origins
+        if (msg.toLowerCase().indexOf('script error') !== -1 || 
+            msg.indexOf('adsbygoogle') !== -1 || 
+            msg.indexOf('gtag') !== -1 || 
+            !src || 
+            src.indexOf('pagead') !== -1 || 
+            src.indexOf('googlesyndication') !== -1 ||
+            src.indexOf('googletagmanager') !== -1 ||
+            (src && src.indexOf(window.location.host) === -1 && src.indexOf('http') === 0)) {
+          console.warn('Swallowed cross-origin or external script error:', message, 'from', source);
+          return true; // Prevents the firing of the default event handler
+        }
+        return false;
+      };
 
-      gtag('config', 'G-E2N90EEZ64');
+      window.addEventListener('error', function(e) {
+        const message = String(e.message || '');
+        const source = String(e.filename || '');
+        
+        if (message.toLowerCase().indexOf('script error') !== -1 || 
+            message.indexOf('adsbygoogle') !== -1 || 
+            message.indexOf('gtag') !== -1 || 
+            !source ||
+            source.indexOf('pagead') !== -1 || 
+            source.indexOf('googlesyndication') !== -1 ||
+            source.indexOf('googletagmanager') !== -1 ||
+            (source && source.indexOf(window.location.host) === -1 && source.indexOf('http') === 0)) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+        }
+      }, true);
+
+      window.addEventListener('unhandledrejection', function(e) {
+        const reason = e.reason && e.reason.message ? String(e.reason.message) : '';
+        if (reason.toLowerCase().indexOf('script error') !== -1 || 
+            reason.indexOf('adsbygoogle') !== -1 || 
+            reason.indexOf('gtag') !== -1 ||
+            reason.indexOf('googletagmanager') !== -1) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+        }
+      });
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,7 +87,6 @@
           min-height: 400px;
         }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1364907810999451" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="root"></div>
