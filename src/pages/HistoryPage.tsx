@@ -80,9 +80,15 @@ const HistoryPage: React.FC = () => {
             <p>
               To escape the corruption of centralized money, individuals are increasingly turning to decentralized alternatives. Hard assets like real estate and physical gold offer traditional protection, while Bitcoin represents a digital return to sound money—a decentralized, mathematically scarce network that no government or central bank can manipulate, inflate, or control.
             </p>
-            <div className="mt-8 pt-8 border-t border-zinc-800 text-center">
-              <Link to="/" className="inline-block px-8 py-4 bg-[#f97316] hover:bg-[#ea580c] text-white font-bold rounded-xl transition-colors shadow-lg">
+            <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link to="/" className="w-full sm:w-auto px-8 py-3.5 bg-[#f97316] hover:bg-[#ea580c] text-white font-bold rounded-xl transition-colors shadow-lg text-center">
                 Return to the Erosion Tracker
+              </Link>
+              <Link to="/bitcoin-sound-money" className="w-full sm:w-auto px-6 py-3.5 bg-zinc-800 hover:bg-zinc-700 text-amber-300 hover:text-white font-bold rounded-xl transition-colors text-center border border-zinc-700">
+                ⚡ Why Bitcoin is Sound Money
+              </Link>
+              <Link to="/case-studies" className="w-full sm:w-auto px-6 py-3.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white font-bold rounded-xl transition-colors text-center border border-zinc-700">
+                🏛️ Read Historical Case Studies
               </Link>
             </div>
           </section>

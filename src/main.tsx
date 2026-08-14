@@ -8,6 +8,8 @@ import HistoryPage from './pages/HistoryPage';
 import CbdcPage from './pages/CbdcPage';
 import InflationPage from './pages/InflationPage';
 import BitcoinWallets from './pages/BitcoinWallets';
+import CaseStudiesPage from './pages/CaseStudiesPage';
+import BitcoinSoundMoneyPage from './pages/BitcoinSoundMoneyPage';
 import './index.css';
 
 const rootElement = document.getElementById('root');
@@ -28,6 +30,10 @@ root.render(
           <Route path="/cbdc" element={<CbdcPage />} />
           <Route path="/inflation" element={<InflationPage />} />
           <Route path="/bitcoin-wallets" element={<BitcoinWallets />} />
+          <Route path="/case-studies" element={<CaseStudiesPage />} />
+          <Route path="/historical-case-studies" element={<CaseStudiesPage />} />
+          <Route path="/bitcoin-sound-money" element={<BitcoinSoundMoneyPage />} />
+          <Route path="/bitcoin-hedge" element={<BitcoinSoundMoneyPage />} />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>

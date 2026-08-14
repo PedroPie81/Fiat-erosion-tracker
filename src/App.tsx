@@ -16,6 +16,7 @@ import {
 } from './constants';
 import TickerBox from './components/TickerBox';
 import Tooltip from './components/Tooltip';
+import HeaderNavDropdown from './components/HeaderNavDropdown';
 
 // Register Chart.js components
 ChartJS.register(...registerables);
@@ -297,7 +298,7 @@ const App: React.FC = () => {
           display: true, 
           text: chartViewMode === 'indexed' ? 'Indexed Value (%)' : `Absolute Value (${config.symbol})`, 
           color: '#71717a', 
-          font: { size: 10, weight: 'bold' } 
+          font: { size: 10, weight: 'bold' as const } 
         },
         grid: { color: '#27272a' },
         ticks: { 
@@ -323,7 +324,7 @@ const App: React.FC = () => {
         <div className="max-w-3xl">
           <button 
             onClick={() => setShowAbout(!showAbout)}
-            className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-zinc-500 hover:text-[#f97316] transition-colors group mb-6"
+            className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-zinc-500 hover:text-[#f97316] transition-colors group mb-4"
           >
             <span>About this tool & Disclaimer</span>
             <svg 
@@ -337,7 +338,7 @@ const App: React.FC = () => {
             </svg>
           </button>
           
-          <div className={`overflow-hidden transition-all duration-300 ease-in-out ${showAbout ? 'max-h-[600px] opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
+          <div className={`overflow-hidden transition-all duration-300 ease-in-out ${showAbout ? 'max-h-[600px] opacity-100 mb-6' : 'max-h-0 opacity-0'}`}>
             <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 text-zinc-300 text-sm leading-relaxed flex flex-col gap-4">
               <p>
                 The purpose of this site is to illustrate the erosion of fiat currency purchasing power over time, using both official government-reported inflation rates (CPI/HICP from ONS for UK, BLS for US, Eurostat for EUR) and a higher alternative "shadow" estimate as a reference point.
@@ -351,6 +352,9 @@ const App: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Dropdown Navigation & Educational Research Hub */}
+        <HeaderNavDropdown />
       </header>
 
       <main className="max-w-7xl mx-auto w-full px-6 flex-1 flex flex-col gap-12 pb-24">
@@ -612,8 +616,20 @@ const App: React.FC = () => {
           {/* NEW: Informational Page Links */}
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-4 flex-wrap">
             <Link 
+              to="/bitcoin-sound-money" 
+              className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-orange-500/20 to-amber-500/20 hover:from-orange-500/30 hover:to-amber-500/30 border border-orange-500/40 hover:border-orange-400 rounded-xl text-orange-300 hover:text-white font-extrabold tracking-wide transition-all text-center shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+            >
+              ⚡ Bitcoin: Sound Money & Fiat Hedge
+            </Link>
+            <Link 
+              to="/case-studies" 
+              className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/40 hover:border-amber-400 rounded-xl text-amber-300 hover:text-white font-extrabold tracking-wide transition-all text-center shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+            >
+              🏛️ Historical Case Studies (Weimar, Rome & More)
+            </Link>
+            <Link 
               to="/bitcoin-wallets" 
-              className="w-full sm:w-auto px-6 py-3 bg-amber-950/40 hover:bg-amber-900/40 border border-amber-900/50 hover:border-amber-800 rounded-xl text-amber-300 hover:text-white font-extrabold tracking-wide transition-all text-center shadow-md hover:shadow-lg flex items-center justify-center gap-2 animate-pulse"
+              className="w-full sm:w-auto px-6 py-3 bg-amber-950/40 hover:bg-amber-900/40 border border-amber-900/50 hover:border-amber-800 rounded-xl text-amber-300 hover:text-white font-extrabold tracking-wide transition-all text-center shadow-md hover:shadow-lg flex items-center justify-center gap-2"
             >
               🐋 Top 100 Bitcoin Wallets
             </Link>
