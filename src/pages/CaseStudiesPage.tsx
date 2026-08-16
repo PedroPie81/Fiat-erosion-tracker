@@ -733,6 +733,7 @@ const CaseStudiesPage: React.FC = () => {
         <footer className="pt-8 border-t border-zinc-800/80 flex flex-wrap justify-between items-center gap-4 text-xs text-zinc-500">
           <div className="flex flex-wrap gap-4 font-semibold">
             <Link to="/" className="hover:text-white transition-colors">Fiat Erosion Calculator</Link>
+            <Link to="/cost-vs-wages" className="text-emerald-400 hover:underline">⏱️ Cost vs. Wages</Link>
             <Link to="/bitcoin-sound-money" className="text-[#f97316] hover:underline">⚡ Bitcoin Sound Money</Link>
             <Link to="/history" className="hover:text-white transition-colors">History of Money</Link>
             <Link to="/inflation" className="hover:text-white transition-colors">What Is Inflation?</Link>

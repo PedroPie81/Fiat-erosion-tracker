@@ -616,6 +616,12 @@ const App: React.FC = () => {
           {/* NEW: Informational Page Links */}
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-4 flex-wrap">
             <Link 
+              to="/cost-vs-wages" 
+              className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 hover:from-emerald-500/30 hover:to-teal-500/30 border border-emerald-500/40 hover:border-emerald-400 rounded-xl text-emerald-300 hover:text-white font-extrabold tracking-wide transition-all text-center shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+            >
+              ⏱️ Cost of Things vs. Wages & Hours Worked
+            </Link>
+            <Link 
               to="/bitcoin-sound-money" 
               className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-orange-500/20 to-amber-500/20 hover:from-orange-500/30 hover:to-amber-500/30 border border-orange-500/40 hover:border-orange-400 rounded-xl text-orange-300 hover:text-white font-extrabold tracking-wide transition-all text-center shadow-md hover:shadow-lg flex items-center justify-center gap-2"
             >

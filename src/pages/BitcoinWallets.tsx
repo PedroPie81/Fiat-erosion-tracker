@@ -833,6 +833,12 @@ const BitcoinWallets: React.FC = () => {
               &larr; Back to Fiat Erosion Tracker
             </Link>
             <Link 
+              to="/cost-vs-wages" 
+              className="w-full sm:w-auto px-6 py-3.5 bg-zinc-800 hover:bg-zinc-700 text-emerald-300 hover:text-white font-bold rounded-xl transition-colors text-center text-sm border border-zinc-700"
+            >
+              ⏱️ Cost of Things vs. Wages
+            </Link>
+            <Link 
               to="/bitcoin-sound-money" 
               className="w-full sm:w-auto px-6 py-3.5 bg-zinc-800 hover:bg-zinc-700 text-amber-300 hover:text-white font-bold rounded-xl transition-colors text-center text-sm border border-zinc-700"
             >

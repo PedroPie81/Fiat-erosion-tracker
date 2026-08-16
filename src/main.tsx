@@ -10,6 +10,7 @@ import InflationPage from './pages/InflationPage';
 import BitcoinWallets from './pages/BitcoinWallets';
 import CaseStudiesPage from './pages/CaseStudiesPage';
 import BitcoinSoundMoneyPage from './pages/BitcoinSoundMoneyPage';
+import CostVsWagesPage from './pages/CostVsWagesPage';
 import './index.css';
 
 const rootElement = document.getElementById('root');
@@ -34,6 +35,9 @@ root.render(
           <Route path="/historical-case-studies" element={<CaseStudiesPage />} />
           <Route path="/bitcoin-sound-money" element={<BitcoinSoundMoneyPage />} />
           <Route path="/bitcoin-hedge" element={<BitcoinSoundMoneyPage />} />
+          <Route path="/cost-vs-wages" element={<CostVsWagesPage />} />
+          <Route path="/cost-of-living-vs-wages" element={<CostVsWagesPage />} />
+          <Route path="/cost-vs-hours-worked" element={<CostVsWagesPage />} />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>

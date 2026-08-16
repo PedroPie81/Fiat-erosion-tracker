@@ -74,9 +74,12 @@ const CbdcPage: React.FC = () => {
             <p>
               To protect your wealth and your liberty, it is crucial to understand and utilize decentralized alternatives. Assets like physical gold and decentralized cryptocurrencies like Bitcoin offer a way to store value outside the reach of central bank manipulation and government surveillance.
             </p>
-            <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-center gap-4 flex-wrap">
               <Link to="/" className="w-full sm:w-auto px-8 py-3.5 bg-[#f97316] hover:bg-[#ea580c] text-white font-bold rounded-xl transition-colors shadow-lg text-center">
                 Return to the Erosion Tracker
+              </Link>
+              <Link to="/cost-vs-wages" className="w-full sm:w-auto px-6 py-3.5 bg-zinc-800 hover:bg-zinc-700 text-emerald-300 hover:text-white font-bold rounded-xl transition-colors text-center border border-zinc-700">
+                ⏱️ Cost of Things vs. Wages
               </Link>
               <Link to="/bitcoin-sound-money" className="w-full sm:w-auto px-6 py-3.5 bg-zinc-800 hover:bg-zinc-700 text-amber-300 hover:text-white font-bold rounded-xl transition-colors text-center border border-zinc-700">
                 ⚡ Why Bitcoin is Sound Money

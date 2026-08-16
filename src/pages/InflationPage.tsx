@@ -34,9 +34,12 @@ const InflationPage: React.FC = () => {
             In essence, inflation isn't just rising prices—it's a policy tool that erodes your financial security. To protect yourself, consider diversifying into hard assets like gold, real estate, or cryptocurrencies, which historically outpace fiat debasement. Awareness is the first step; demand transparency from those controlling the money supply. True economic health requires sound money, not endless printing presses.
           </p>
 
-          <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-center gap-4 flex-wrap">
             <Link to="/" className="w-full sm:w-auto px-8 py-3.5 bg-[#f97316] hover:bg-[#ea580c] text-white font-bold rounded-xl transition-colors shadow-lg text-center">
               Return to the Erosion Tracker
+            </Link>
+            <Link to="/cost-vs-wages" className="w-full sm:w-auto px-6 py-3.5 bg-zinc-800 hover:bg-zinc-700 text-emerald-300 hover:text-white font-bold rounded-xl transition-colors text-center border border-zinc-700">
+              ⏱️ Cost of Things vs. Wages
             </Link>
             <Link to="/bitcoin-sound-money" className="w-full sm:w-auto px-6 py-3.5 bg-zinc-800 hover:bg-zinc-700 text-amber-300 hover:text-white font-bold rounded-xl transition-colors text-center border border-zinc-700">
               ⚡ Why Bitcoin is Sound Money
