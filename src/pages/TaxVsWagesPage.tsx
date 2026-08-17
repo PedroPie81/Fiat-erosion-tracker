@@ -717,7 +717,7 @@ const TaxVsWagesPage: React.FC = () => {
             </h3>
             <div className="h-80 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <AreaChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                   <defs>
                     <linearGradient id="incomeGrad" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.8}/>
@@ -737,8 +737,13 @@ const TaxVsWagesPage: React.FC = () => {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                  <XAxis dataKey="label" stroke="#71717a" tick={{ fill: '#a1a1aa', fontSize: 12 }} />
-                  <YAxis stroke="#71717a" tick={{ fill: '#a1a1aa', fontSize: 12 }} unit="%" />
+                  <XAxis dataKey="label" stroke="#71717a" tick={{ fill: '#d4d4d8', fontSize: 12 }} />
+                  <YAxis 
+                    stroke="#71717a" 
+                    tick={{ fill: '#d4d4d8', fontSize: 12 }} 
+                    unit="%" 
+                    width={45}
+                  />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px', color: '#fff' }}
                   />
@@ -762,12 +767,19 @@ const TaxVsWagesPage: React.FC = () => {
             </h3>
             <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <LineChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                  <XAxis dataKey="label" stroke="#71717a" tick={{ fill: '#a1a1aa', fontSize: 12 }} />
-                  <YAxis stroke="#71717a" tick={{ fill: '#a1a1aa', fontSize: 12 }} domain={[90, 200]} unit=" days" />
+                  <XAxis dataKey="label" stroke="#71717a" tick={{ fill: '#d4d4d8', fontSize: 12 }} />
+                  <YAxis 
+                    stroke="#71717a" 
+                    tick={{ fill: '#d4d4d8', fontSize: 12 }} 
+                    domain={[80, 200]} 
+                    tickFormatter={(val) => `${val}d`}
+                    width={50}
+                  />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', borderRadius: '12px', color: '#fff' }}
+                    formatter={(value: any) => [`${value} days`, 'Days Worked for Gov']}
                   />
                   <Line
                     type="monotone"
