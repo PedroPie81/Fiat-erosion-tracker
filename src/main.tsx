@@ -12,6 +12,7 @@ import CaseStudiesPage from './pages/CaseStudiesPage';
 import BitcoinSoundMoneyPage from './pages/BitcoinSoundMoneyPage';
 import CostVsWagesPage from './pages/CostVsWagesPage';
 import MoneySupplyPage from './pages/MoneySupplyPage';
+import TaxVsWagesPage from './pages/TaxVsWagesPage';
 import './index.css';
 
 const rootElement = document.getElementById('root');
@@ -42,6 +43,10 @@ root.render(
           <Route path="/money-supply" element={<MoneySupplyPage />} />
           <Route path="/m1-m2-money-supply" element={<MoneySupplyPage />} />
           <Route path="/central-bank-money-supply" element={<MoneySupplyPage />} />
+          <Route path="/tax-vs-wages" element={<TaxVsWagesPage />} />
+          <Route path="/tax-burden-vs-wages" element={<TaxVsWagesPage />} />
+          <Route path="/tax-rates-vs-wages" element={<TaxVsWagesPage />} />
+          <Route path="/historical-tax-rates" element={<TaxVsWagesPage />} />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>

@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   BookOpen, History, Flame, ShieldAlert, Coins, 
   ChevronDown, ArrowRight, Sparkles, ExternalLink, Compass,
-  Clock, Calculator, Landmark
+  Clock, Calculator, Landmark, Receipt
 } from 'lucide-react';
 
 interface NavPageItem {
@@ -19,14 +19,23 @@ interface NavPageItem {
 
 const NAV_PAGES: NavPageItem[] = [
   {
+    path: '/tax-vs-wages',
+    title: 'Tax Burden vs. Wages & Fiscal Drag Tracker (1971–2026)',
+    shortTitle: 'Tax Burden vs. Wages',
+    description: 'Track how direct income tax, payroll/NICs, 20% VAT, property levies, and frozen tax brackets (fiscal drag) squeeze working wages across USD, GBP, and EUR.',
+    tag: 'Taxes & Fiscal Drag',
+    tagColor: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+    icon: <Receipt className="h-5 w-5 text-rose-400" />,
+    isNew: true
+  },
+  {
     path: '/money-supply',
     title: 'Global Money Supply Tracker (M0, M1, M2, M3, M4)',
     shortTitle: 'Money Supply (M1, M2, M3)',
     description: 'Track exponential fiat money printing, central bank balance sheets, and savings dilution across USD, GBP, EUR, and Global aggregates from 1971 to 2026.',
     tag: 'Monetary Printing',
     tagColor: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-    icon: <Landmark className="h-5 w-5 text-amber-400" />,
-    isNew: true
+    icon: <Landmark className="h-5 w-5 text-amber-400" />
   },
   {
     path: '/cost-vs-wages',
@@ -206,11 +215,18 @@ const HeaderNavDropdown: React.FC = () => {
           <span className="text-[10px] uppercase font-bold text-zinc-500 shrink-0">Featured:</span>
           
           <button
+            onClick={() => handleSelectPage('/tax-vs-wages')}
+            className="shrink-0 px-2.5 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-semibold text-[11px] flex items-center gap-1.5 transition-all cursor-pointer"
+          >
+            🧾 Tax vs. Wages & Fiscal Drag
+            <span className="h-1.5 w-1.5 rounded-full bg-rose-400 animate-ping"></span>
+          </button>
+
+          <button
             onClick={() => handleSelectPage('/money-supply')}
             className="shrink-0 px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-semibold text-[11px] flex items-center gap-1.5 transition-all cursor-pointer"
           >
             🏛️ Money Supply (M1/M2/M3)
-            <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-ping"></span>
           </button>
 
           <button
