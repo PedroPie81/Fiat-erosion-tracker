@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   BookOpen, History, Flame, ShieldAlert, Coins, 
   ChevronDown, ArrowRight, Sparkles, ExternalLink, Compass,
-  Clock, Calculator
+  Clock, Calculator, Landmark
 } from 'lucide-react';
 
 interface NavPageItem {
@@ -19,14 +19,23 @@ interface NavPageItem {
 
 const NAV_PAGES: NavPageItem[] = [
   {
+    path: '/money-supply',
+    title: 'Global Money Supply Tracker (M0, M1, M2, M3, M4)',
+    shortTitle: 'Money Supply (M1, M2, M3)',
+    description: 'Track exponential fiat money printing, central bank balance sheets, and savings dilution across USD, GBP, EUR, and Global aggregates from 1971 to 2026.',
+    tag: 'Monetary Printing',
+    tagColor: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    icon: <Landmark className="h-5 w-5 text-amber-400" />,
+    isNew: true
+  },
+  {
     path: '/cost-vs-wages',
     title: 'Cost of Things vs. Wages & Hours Worked (1971–2026)',
     shortTitle: 'Cost vs. Wages & Hours',
     description: 'Calculate how many hours of work were needed to buy a house, car, tuition, groceries, and gold across USD, GBP, and EUR from 1971 to 2026.',
     tag: 'Labor & Wages',
     tagColor: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-    icon: <Clock className="h-5 w-5 text-emerald-400" />,
-    isNew: true
+    icon: <Clock className="h-5 w-5 text-emerald-400" />
   },
   {
     path: '/bitcoin-sound-money',
@@ -213,6 +222,7 @@ const HeaderNavDropdown: React.FC = () => {
               className="w-full bg-zinc-950 border border-zinc-800 hover:border-zinc-700 px-3 py-3 rounded-xl text-xs font-semibold text-zinc-300 focus:outline-none focus:ring-2 focus:ring-[#f97316]/40 cursor-pointer"
             >
               <option value="" disabled>⚡ Quick Jump directly...</option>
+              <option value="/money-supply">🏛️ Global Money Supply (M0, M1, M2, M3)</option>
               <option value="/cost-vs-wages">⏱️ Cost of Things vs. Wages & Hours Worked</option>
               <option value="/bitcoin-sound-money">⚡ Bitcoin: Sound Money & Fiat Hedge</option>
               <option value="/case-studies">🏛️ Historical Case Studies (Weimar, Rome, etc.)</option>
@@ -230,11 +240,18 @@ const HeaderNavDropdown: React.FC = () => {
           <span className="text-[10px] uppercase font-bold text-zinc-500 shrink-0">Featured:</span>
           
           <button
+            onClick={() => handleSelectPage('/money-supply')}
+            className="shrink-0 px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-semibold text-[11px] flex items-center gap-1.5 transition-all cursor-pointer"
+          >
+            🏛️ Money Supply (M1/M2/M3)
+            <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-ping"></span>
+          </button>
+
+          <button
             onClick={() => handleSelectPage('/cost-vs-wages')}
             className="shrink-0 px-2.5 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-semibold text-[11px] flex items-center gap-1.5 transition-all cursor-pointer"
           >
             ⏱️ Cost vs. Wages & Hours
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping"></span>
           </button>
 
           <button
