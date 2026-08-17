@@ -22,6 +22,10 @@ type MetricDisplayMode = 'hours' | 'nominal' | 'wage_multiplier';
 
 const FAQS = [
   {
+    q: 'Why does beef and food cost 8x more in dollars today, but takes a similar amount of work hours as in 1971?',
+    a: 'This demonstrates the crucial economic distinction between reproducible commodities and non-reproducible scarce assets:\n\n1. Agricultural Mechanization & Industrialization: Between 1971 and 2000, automated grain harvesting, industrial feedlots, genetic crop breeding, and massive government farm subsidies drastically reduced the physical resource cost of producing food. By 2000, 1 lb of beef required just 7.0 minutes of work (down from 11.6 minutes in 1971).\n\n2. Wage vs. Price Parity: Over 55 years, nominal hourly wages rose ~760% ($3.63/hr to $31.20/hr in the US), closely matching the ~735% nominal rise in beef ($0.70 to $5.85/lb). Massive industrial efficiency gains masked fiat debasement in reproducible groceries.\n\n3. The Contrast with Scarce Assets: In sharp contrast, you cannot mass-produce land, prime residential housing, Ivy League diplomas, or physical gold. Newly printed fiat money flooded into fixed-supply assets: buying a home went from ~6,942 hours of labor in 1971 to over 13,846 hours today (+99% labor increase), and gold went from 9.6 hours to 93 hours (+869% labor increase).'
+  },
+  {
     q: 'Why do everyday essentials and housing feel so unaffordable despite nominal wage increases?',
     a: 'While nominal hourly wages have risen in currency terms over recent decades, the cost of scarce, non-reproducible assets and essential services—particularly housing, healthcare, and higher education—has expanded at many times the rate of wages. Because central banks continuously expand the fiat money supply, newly created money floods into fixed-supply assets, requiring workers to sacrifice significantly more hours of physical labor to buy the exact same standard of living.'
   },
@@ -93,25 +97,58 @@ const CostVsWagesPage: React.FC = () => {
 
   const formatHours = (hours: number) => {
     if (hours >= 1000) {
-      return `${hours.toLocaleString(undefined, { maximumFractionDigits: 0 })} hrs`;
+      return `${Math.round(hours).toLocaleString()} hrs`;
     }
-    if (hours < 10) {
+    if (hours >= 10) {
       return `${hours.toFixed(1)} hrs`;
     }
-    return `${Math.round(hours).toLocaleString()} hrs`;
+    if (hours >= 1) {
+      const whole = Math.floor(hours);
+      const mins = Math.round((hours - whole) * 60);
+      return mins > 0 ? `${whole}h ${mins}m` : `${whole} hrs`;
+    }
+    // Sub-hour items (< 1 hour)
+    const mins = hours * 60;
+    if (mins < 1) {
+      const secs = Math.round(hours * 3600);
+      return `${secs} secs`;
+    }
+    return `${mins.toFixed(1)} mins (${hours.toFixed(2)}h)`;
+  };
+
+  const formatTableHours = (hours: number) => {
+    if (hours >= 1000) {
+      return `${Math.round(hours).toLocaleString()} hrs`;
+    }
+    if (hours >= 10) {
+      return `${hours.toFixed(1)} hrs`;
+    }
+    if (hours >= 1) {
+      const whole = Math.floor(hours);
+      const mins = Math.round((hours - whole) * 60);
+      return mins > 0 ? `${whole}h ${mins}m` : `${whole}h`;
+    }
+    // Sub-hour items (< 1 hour)
+    const mins = hours * 60;
+    return `${mins.toFixed(1)} mins`;
   };
 
   const formatDaysOrYears = (hours: number) => {
     if (hours >= 2000) {
       const years = (hours / 2000).toFixed(1);
-      return `~${years} work years`;
+      return `~${years} full work years (2,000h/yr)`;
     }
     if (hours >= 8) {
       const days = (hours / 8).toFixed(1);
-      return `~${days} work days`;
+      return `~${days} work days (8h/day)`;
     }
-    const mins = Math.round(hours * 60);
-    return `${mins} mins`;
+    if (hours >= 1) {
+      const whole = Math.floor(hours);
+      const mins = Math.round((hours - whole) * 60);
+      return mins > 0 ? `${whole} hr ${mins} min of labor` : `${whole} hr of labor`;
+    }
+    const mins = (hours * 60).toFixed(1);
+    return `~${mins} minutes of labor`;
   };
 
   // Macro Summary Statistics
@@ -576,13 +613,17 @@ const CostVsWagesPage: React.FC = () => {
 
                       {hasBasePrice && (
                         <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide border shrink-0 ${
-                          hoursPercentChange > 20 
+                          hoursPercentChange > 10 
                             ? 'bg-rose-500/10 text-rose-400 border-rose-500/20'
                             : hoursPercentChange < -10
                             ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                             : 'bg-zinc-800 text-zinc-300 border-zinc-700'
                         }`}>
-                          {hoursPercentChange > 0 ? `+${hoursPercentChange.toFixed(0)}% labor` : `${hoursPercentChange.toFixed(0)}% labor`}
+                          {Math.abs(hoursPercentChange) < 0.5 
+                            ? '0% labor (flat)' 
+                            : hoursPercentChange > 0 
+                            ? `+${hoursPercentChange >= 10 ? hoursPercentChange.toFixed(0) : hoursPercentChange.toFixed(1)}% labor` 
+                            : `${hoursPercentChange <= -10 ? hoursPercentChange.toFixed(0) : hoursPercentChange.toFixed(1)}% labor`}
                         </span>
                       )}
                     </div>
@@ -774,7 +815,7 @@ const CostVsWagesPage: React.FC = () => {
                         <td key={year} className="py-3.5 px-5 text-right text-zinc-300">
                           <div className="font-semibold">{formatMoney(price)}</div>
                           <div className="text-[10px] text-zinc-400 font-medium">
-                            {formatHours(hours)}
+                            {formatTableHours(hours)}
                           </div>
                         </td>
                       );

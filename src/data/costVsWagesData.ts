@@ -183,7 +183,8 @@ export const COST_VS_WAGES_DATA: Record<'USD' | 'GBP' | 'EUR', CurrencyDataset> 
           2010: 1.47,
           2020: 1.51,
           2026: 3.45
-        }
+        },
+        notes: 'Industrial battery farming reduced egg labor from 8.8 mins in 1971 to 3.7 mins in 2020. Severe post-2020 feed/flock inflation pushed it back to 6.6 mins.'
       },
       {
         id: 'loaf_bread',
@@ -201,7 +202,8 @@ export const COST_VS_WAGES_DATA: Record<'USD' | 'GBP' | 'EUR', CurrencyDataset> 
           2010: 1.39,
           2020: 1.52,
           2026: 2.10
-        }
+        },
+        notes: 'Mechanized wheat harvesting and bakeries dropped bread labor from 4.1 mins in 1971 to ~3.7 mins in 2020, rising to 4.0 mins today.'
       },
       {
         id: 'gallon_milk',
@@ -219,7 +221,8 @@ export const COST_VS_WAGES_DATA: Record<'USD' | 'GBP' | 'EUR', CurrencyDataset> 
           2010: 3.32,
           2020: 3.39,
           2026: 4.35
-        }
+        },
+        notes: 'Automated milking and massive dairy subsidies halved milk labor from 19.5 mins in 1971 to 8.4 mins in 2026.'
       },
       {
         id: 'beef_ground',
@@ -237,7 +240,8 @@ export const COST_VS_WAGES_DATA: Record<'USD' | 'GBP' | 'EUR', CurrencyDataset> 
           2010: 2.54,
           2020: 4.12,
           2026: 5.85
-        }
+        },
+        notes: 'Took 11.6 mins of labor in 1971, dropped to 7.0 mins in 2000 due to feedlot scaling, then rebounded to 11.3 mins by 2026 due to feed & energy costs.'
       },
       {
         id: 'gold_ounce',
@@ -481,7 +485,8 @@ export const COST_VS_WAGES_DATA: Record<'USD' | 'GBP' | 'EUR', CurrencyDataset> 
           2010: 5.60,
           2020: 6.80,
           2026: 9.90
-        }
+        },
+        notes: 'Took ~40 mins of UK work in 1971, dropped to 23 mins in 2000 with industrial supply chains, and rose back to 30 mins in 2026.'
       },
       {
         id: 'gold_ounce',
