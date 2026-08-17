@@ -3,11 +3,41 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 const HistoryPage: React.FC = () => {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The History of Money: From Commodity Gold to Centralized Fiat Control",
+    "description": "Historical timeline of money from ancient decentralized barter and precious metals to the 1971 Nixon Shock and modern unbacked central bank fiat currencies.",
+    "author": {
+      "@type": "Person",
+      "name": "Peter Adam J"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Fiat Erosion Tracker"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fiat-erosion-tracker.vercel.app/history"
+    },
+    "keywords": "history of money, gold standard history, 1971 nixon shock, executive order 6102, bretton woods collapse, sound money vs fiat, central banking history"
+  };
+
   return (
     <div className="min-h-screen bg-[#09090b] text-zinc-300 py-12 px-6 font-sans">
       <Helmet>
-        <title>History of Money: From Decentralized Barter to Corrupt Centralized Fiat | Fiat Erosion Tracker</title>
-        <meta name="description" content="Discover the history of money, how it evolved from gold-backed and decentralized systems to government-controlled fiat currencies prone to corruption and inflation manipulation." />
+        <title>History of Money: From Decentralized Barter to Centralized Fiat | Fiat Erosion Tracker</title>
+        <meta name="description" content="Discover the history of money, how it evolved from gold-backed and decentralized systems to government-controlled fiat currencies prone to inflation manipulation." />
+        <meta name="keywords" content="history of money, gold standard history, 1971 nixon shock, executive order 6102, bretton woods collapse, sound money vs fiat, central banking history" />
+        <meta property="og:title" content="History of Money: From Gold Standard to Unbacked Fiat" />
+        <meta property="og:description" content="Explore how money evolved from scarce physical gold and silver into unbacked government fiat and the consequences for modern savers." />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://fiat-erosion-tracker.vercel.app/history" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="https://fiat-erosion-tracker.vercel.app/history" />
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </script>
       </Helmet>
       
       <div className="max-w-4xl mx-auto bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 md:p-12">

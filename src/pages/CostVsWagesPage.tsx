@@ -207,9 +207,25 @@ const CostVsWagesPage: React.FC = () => {
         <meta property="og:title" content="Cost of Living vs. Wages & Hours Worked (1971–2026)" />
         <meta property="og:description" content="Calculate how many hours of human labor are required to afford life essentials today versus 1971 across USD, GBP, and EUR." />
         <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://fiat-erosion-tracker.vercel.app/cost-vs-wages" />
         <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="https://fiat-erosion-tracker.vercel.app/cost-vs-wages" />
         <script type="application/ld+json">
           {JSON.stringify(jsonLd)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": FAQS.map(faq => ({
+              "@type": "Question",
+              "name": faq.q,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.a
+              }
+            }))
+          })}
         </script>
       </Helmet>
 

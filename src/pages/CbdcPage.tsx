@@ -3,11 +3,41 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 const CbdcPage: React.FC = () => {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "CBDCs: The Risks of Programmable Central Bank Digital Currencies and Financial Surveillance",
+    "description": "Critical economic breakdown of Central Bank Digital Currencies (CBDCs), programmable money restrictions, negative interest rates, and civil liberty concerns.",
+    "author": {
+      "@type": "Person",
+      "name": "Peter Adam J"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Fiat Erosion Tracker"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fiat-erosion-tracker.vercel.app/cbdc"
+    },
+    "keywords": "what are cbdcs, central bank digital currency risks, programmable money dangers, negative interest rates cbdc, financial surveillance cbdc, cash ban"
+  };
+
   return (
     <div className="min-h-screen bg-[#09090b] text-zinc-300 py-12 px-6 font-sans">
       <Helmet>
-        <title>CBDCs: The Risks of Programmable Digital Currencies and Government Totalitarian Control | Fiat Erosion Tracker</title>
-        <meta name="description" content="Learn about Central Bank Digital Currencies (CBDCs), their programmable features, and how they enable corrupt governments to exert totalitarian control over spending, savings, and personal freedoms." />
+        <title>CBDCs: Risks of Programmable Digital Currencies & Surveillance | Fiat Erosion Tracker</title>
+        <meta name="description" content="Learn about Central Bank Digital Currencies (CBDCs), their programmable features, negative interest rates, and how they impact financial privacy and personal freedom." />
+        <meta name="keywords" content="what are cbdcs, central bank digital currency risks, programmable money dangers, negative interest rates cbdc, financial surveillance cbdc, cash ban" />
+        <meta property="og:title" content="CBDCs: Risks of Programmable Digital Currencies & Surveillance" />
+        <meta property="og:description" content="Explore how Central Bank Digital Currencies enable direct financial surveillance, expiration dates on savings, and programmable spending restrictions." />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://fiat-erosion-tracker.vercel.app/cbdc" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="https://fiat-erosion-tracker.vercel.app/cbdc" />
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </script>
       </Helmet>
       
       <div className="max-w-4xl mx-auto bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 md:p-12">

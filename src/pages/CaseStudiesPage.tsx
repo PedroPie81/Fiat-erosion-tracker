@@ -297,9 +297,25 @@ const CaseStudiesPage: React.FC = () => {
         <meta property="og:title" content="Historical Case Studies of Hyperinflation & Currency Collapse" />
         <meta property="og:description" content="Explore detailed economic breakdowns of how fiat currencies and ancient empires collapsed through reckless money printing and coin debasement." />
         <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://fiat-erosion-tracker.vercel.app/case-studies" />
         <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="https://fiat-erosion-tracker.vercel.app/case-studies" />
         <script type="application/ld+json">
           {JSON.stringify(jsonLd)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": FAQS.map(faq => ({
+              "@type": "Question",
+              "name": faq.q,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.a
+              }
+            }))
+          })}
         </script>
       </Helmet>
 

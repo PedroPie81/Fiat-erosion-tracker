@@ -3,11 +3,41 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 const InflationPage: React.FC = () => {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "What Is Inflation? The Hidden Theft of Your Wealth and Purchasing Power",
+    "description": "Understand what inflation really is, how quantitative easing and fiat printing debase currency, and why official CPI understates real cost-of-living increases.",
+    "author": {
+      "@type": "Person",
+      "name": "Peter Adam J"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Fiat Erosion Tracker"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://fiat-erosion-tracker.vercel.app/inflation"
+    },
+    "keywords": "what is inflation, fiat currency debasement, shadowstats vs cpi, quantitative easing, stealth tax inflation, money printing wealth destruction"
+  };
+
   return (
     <div className="min-h-screen bg-[#09090b] text-zinc-300 py-12 px-6 font-sans">
       <Helmet>
         <title>What Is Inflation? The Hidden Theft of Your Wealth | Fiat Erosion Tracker</title>
-        <meta name="description" content="Understand what inflation really is, how central banks debase currency, and how it acts as a hidden tax on your wealth." />
+        <meta name="description" content="Understand what inflation really is, how central banks debase currency through quantitative easing, and how it acts as a hidden tax on your wealth." />
+        <meta name="keywords" content="what is inflation, fiat currency debasement, shadow inflation vs official CPI, quantitative easing, money printing wealth loss, stealth tax" />
+        <meta property="og:title" content="What Is Inflation? The Hidden Theft of Your Wealth" />
+        <meta property="og:description" content="Discover how central banks print money out of thin air, dilute your savings, and manipulate official CPI statistics." />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://fiat-erosion-tracker.vercel.app/inflation" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="https://fiat-erosion-tracker.vercel.app/inflation" />
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </script>
       </Helmet>
       
       <div className="max-w-4xl mx-auto bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 md:p-12">

@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, 
   ResponsiveContainer, Legend, ReferenceLine 
@@ -312,6 +313,24 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col">
+      <Helmet>
+        <title>Fiat Erosion Tracker | Watch Your Purchasing Power Melt Away</title>
+        <meta 
+          name="description" 
+          content="Interactive inflation and currency debasement visualizer. Track real purchasing power erosion across USD, GBP, and EUR against housing, equities, and sound money." 
+        />
+        <meta 
+          name="keywords" 
+          content="fiat erosion tracker, real inflation calculator, purchasing power loss, money printing tracker, inflation hedge, shadow inflation vs CPI, currency debasement" 
+        />
+        <meta property="og:title" content="Fiat Erosion Tracker | Watch Your Purchasing Power Melt Away" />
+        <meta property="og:description" content="Calculate and visualize how inflation and currency debasement erode your cash savings over time." />
+        <meta property="og:url" content="https://fiat-erosion-tracker.vercel.app/" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="https://fiat-erosion-tracker.vercel.app/" />
+      </Helmet>
+
       <header className="max-w-7xl mx-auto w-full px-6 pt-12 pb-8">
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 text-balance text-white">
           Watch your purchasing power <span className="text-[#f97316]">melt away.</span>

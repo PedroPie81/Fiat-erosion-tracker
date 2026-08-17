@@ -39,6 +39,21 @@ const BitcoinWallets: React.FC = () => {
   const [expandedRank, setExpandedRank] = useState<number | null>(null);
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Top 100 Richest Bitcoin Wallets Explorer",
+    "url": "https://fiat-erosion-tracker.vercel.app/bitcoin-wallets",
+    "description": "Live tracker of the 100 largest Bitcoin addresses on the blockchain, analyzing exchange cold storage, nation-state seizures, and Satoshi-era dormant whales.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
   useEffect(() => {
     fetchWallets();
   }, []);
@@ -275,6 +290,16 @@ const BitcoinWallets: React.FC = () => {
       <Helmet>
         <title>Top 100 Richest Bitcoin Wallets | Live Blockchain Whale Tracker</title>
         <meta name="description" content="Track the largest 100 Bitcoin addresses in real-time. Live stats, exchange cold storage, government-seized wallets, and long-sleeping Satoshi-era whales." />
+        <meta name="keywords" content="top 100 bitcoin wallets, richest bitcoin addresses, bitcoin whale tracker, satoshi nakamoto wallets, binance cold storage btc, government bitcoin holdings" />
+        <meta property="og:title" content="Top 100 Richest Bitcoin Wallets | Live Blockchain Whale Tracker" />
+        <meta property="og:description" content="Explore live on-chain data for the 100 largest Bitcoin addresses, including centralized exchanges, government reserves, and dormant Satoshi-era whales." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://fiat-erosion-tracker.vercel.app/bitcoin-wallets" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="https://fiat-erosion-tracker.vercel.app/bitcoin-wallets" />
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </script>
       </Helmet>
 
       {/* Header */}

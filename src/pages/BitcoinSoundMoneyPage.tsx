@@ -158,9 +158,25 @@ const BitcoinSoundMoneyPage: React.FC = () => {
         <meta property="og:title" content="Why Bitcoin is Sound Money | The Antidote to Fiat Currency Erosion" />
         <meta property="og:description" content="Discover how Bitcoin's mathematical scarcity protects long-term purchasing power against unbacked fiat money printing, central bank debasement, and the Cantillon Effect." />
         <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://fiat-erosion-tracker.vercel.app/bitcoin-sound-money" />
         <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="https://fiat-erosion-tracker.vercel.app/bitcoin-sound-money" />
         <script type="application/ld+json">
           {JSON.stringify(jsonLd)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": FAQS.map(faq => ({
+              "@type": "Question",
+              "name": faq.q,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.a
+              }
+            }))
+          })}
         </script>
       </Helmet>
 
