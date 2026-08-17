@@ -210,58 +210,40 @@ const HeaderNavDropdown: React.FC = () => {
           )}
         </div>
 
-        {/* Quick Clickable Chips below the dropdown */}
-        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-zinc-800/60 overflow-x-auto pb-1 text-xs">
+        {/* Quick Clickable Chips below the dropdown - Clean 4-tab grid/flex without awkward cutoffs or grey boxes */}
+        <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-zinc-800/60 text-xs">
           <span className="text-[10px] uppercase font-bold text-zinc-500 shrink-0">Featured:</span>
           
           <button
+            type="button"
             onClick={() => handleSelectPage('/tax-vs-wages')}
-            className="shrink-0 px-2.5 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-semibold text-[11px] flex items-center gap-1.5 transition-all cursor-pointer"
+            className="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
           >
             🧾 Tax vs. Wages & Fiscal Drag
-            <span className="h-1.5 w-1.5 rounded-full bg-rose-400 animate-ping"></span>
           </button>
 
           <button
+            type="button"
             onClick={() => handleSelectPage('/money-supply')}
-            className="shrink-0 px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-semibold text-[11px] flex items-center gap-1.5 transition-all cursor-pointer"
+            className="px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
           >
             🏛️ Money Supply (M1/M2/M3)
           </button>
 
           <button
+            type="button"
             onClick={() => handleSelectPage('/cost-vs-wages')}
-            className="shrink-0 px-2.5 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-semibold text-[11px] flex items-center gap-1.5 transition-all cursor-pointer"
+            className="px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
           >
             ⏱️ Cost vs. Wages & Hours
           </button>
 
           <button
+            type="button"
             onClick={() => handleSelectPage('/bitcoin-sound-money')}
-            className="shrink-0 px-2.5 py-1 rounded-lg bg-orange-500/10 hover:bg-orange-500/20 text-[#f97316] border border-orange-500/30 font-semibold text-[11px] flex items-center gap-1.5 transition-all cursor-pointer"
+            className="px-3 py-1.5 rounded-lg bg-orange-500/10 hover:bg-orange-500/20 text-[#f97316] border border-orange-500/30 font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
           >
             ⚡ Bitcoin Sound Money
-          </button>
-
-          <button
-            onClick={() => handleSelectPage('/case-studies')}
-            className="shrink-0 px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold text-[11px] flex items-center gap-1.5 transition-all cursor-pointer"
-          >
-            🏛️ Case Studies: Weimar & Rome
-          </button>
-
-          <button
-            onClick={() => handleSelectPage('/bitcoin-wallets')}
-            className="shrink-0 px-2.5 py-1 rounded-lg bg-zinc-800/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700 font-semibold text-[11px] flex items-center gap-1 transition-all cursor-pointer"
-          >
-            🐋 Top 100 Wallets
-          </button>
-
-          <button
-            onClick={() => handleSelectPage('/inflation')}
-            className="shrink-0 px-2.5 py-1 rounded-lg bg-zinc-800/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700 font-semibold text-[11px] flex items-center gap-1 transition-all cursor-pointer"
-          >
-            📉 Real vs CPI
           </button>
         </div>
 
