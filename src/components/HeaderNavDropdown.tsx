@@ -117,20 +117,13 @@ const HeaderNavDropdown: React.FC = () => {
     navigate(path);
   };
 
-  const handleNativeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const path = e.target.value;
-    if (path) {
-      navigate(path);
-    }
-  };
-
   return (
     <div className="w-full max-w-4xl mt-2 mb-8" ref={dropdownRef}>
       {/* Dropdown Box Container */}
       <div className="bg-gradient-to-r from-zinc-900/90 via-zinc-900/70 to-zinc-950/90 border border-zinc-800/90 hover:border-zinc-700/80 rounded-2xl p-4 sm:p-5 shadow-xl transition-all">
         
         {/* Header line */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">
+        <div className="flex items-center justify-between gap-3 mb-3">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-orange-500/10 text-[#f97316] border border-orange-500/20">
               <Compass className="h-4 w-4" />
@@ -144,95 +137,68 @@ const HeaderNavDropdown: React.FC = () => {
               </span>
             </div>
           </div>
-          <span className="text-[11px] text-zinc-500 font-medium hidden sm:inline-block">
-            Explore 6 in-depth research guides & monetary analyses
-          </span>
         </div>
 
-        {/* Dropdown Trigger & Fast Selector Bar */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          
-          {/* Custom Interactive Dropdown Button */}
-          <div className="relative flex-1">
-            <button
-              type="button"
-              onClick={() => setIsOpen(!isOpen)}
-              className="w-full flex items-center justify-between gap-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 px-4 py-3 rounded-xl text-left text-sm text-zinc-200 hover:text-white transition-all shadow-inner group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#f97316]/40"
-              aria-haspopup="listbox"
-              aria-expanded={isOpen}
-            >
-              <div className="flex items-center gap-3 truncate">
-                <Coins className="h-4 w-4 text-[#f97316] shrink-0" />
-                <span className="font-semibold truncate">
-                  {isOpen ? 'Select a research guide or case study below...' : 'Browse Educational Pages & Case Studies...'}
-                </span>
+        {/* Dropdown Trigger */}
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className="w-full flex items-center justify-between gap-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 px-4 py-3 rounded-xl text-left text-sm text-zinc-200 hover:text-white transition-all shadow-inner group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#f97316]/40"
+            aria-haspopup="listbox"
+            aria-expanded={isOpen}
+          >
+            <div className="flex items-center gap-3 truncate">
+              <Coins className="h-4 w-4 text-[#f97316] shrink-0" />
+              <span className="font-semibold truncate">
+                {isOpen ? 'Select a research guide or case study below...' : 'Browse Educational Pages & Case Studies...'}
+              </span>
+            </div>
+            <ChevronDown className={`h-4 w-4 text-zinc-400 group-hover:text-white transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180 text-[#f97316]' : ''}`} />
+          </button>
+
+          {/* Expanded Dropdown Menu Panel */}
+          {isOpen && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-zinc-950 border border-zinc-800 rounded-2xl shadow-2xl z-50 overflow-hidden py-2 divide-y divide-zinc-900/80 animate-in fade-in slide-in-from-top-2 duration-150">
+              <div className="px-4 py-2 text-[10px] uppercase tracking-widest text-zinc-500 font-bold bg-zinc-900/30">
+                Select a research page to navigate:
               </div>
-              <ChevronDown className={`h-4 w-4 text-zinc-400 group-hover:text-white transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180 text-[#f97316]' : ''}`} />
-            </button>
-
-            {/* Expanded Dropdown Menu Panel */}
-            {isOpen && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-zinc-950 border border-zinc-800 rounded-2xl shadow-2xl z-50 overflow-hidden py-2 divide-y divide-zinc-900/80 animate-in fade-in slide-in-from-top-2 duration-150">
-                <div className="px-4 py-2 text-[10px] uppercase tracking-widest text-zinc-500 font-bold bg-zinc-900/30">
-                  Select a research page to navigate:
-                </div>
-                {NAV_PAGES.map((page) => {
-                  const isCurrent = location.pathname === page.path;
-                  return (
-                    <button
-                      key={page.path}
-                      type="button"
-                      onClick={() => handleSelectPage(page.path)}
-                      className={`w-full text-left p-3.5 sm:px-4 sm:py-3.5 hover:bg-zinc-900/70 transition-colors flex items-start gap-3.5 group cursor-pointer ${isCurrent ? 'bg-zinc-900/40' : ''}`}
-                    >
-                      <div className="mt-0.5 p-2 rounded-xl bg-zinc-900 border border-zinc-800/80 group-hover:border-zinc-700 transition-colors shrink-0">
-                        {page.icon}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <span className="font-bold text-sm text-zinc-100 group-hover:text-white transition-colors">
-                            {page.title}
+              {NAV_PAGES.map((page) => {
+                const isCurrent = location.pathname === page.path;
+                return (
+                  <button
+                    key={page.path}
+                    type="button"
+                    onClick={() => handleSelectPage(page.path)}
+                    className={`w-full text-left p-3.5 sm:px-4 sm:py-3.5 hover:bg-zinc-900/70 transition-colors flex items-start gap-3.5 group cursor-pointer ${isCurrent ? 'bg-zinc-900/40' : ''}`}
+                  >
+                    <div className="mt-0.5 p-2 rounded-xl bg-zinc-900 border border-zinc-800/80 group-hover:border-zinc-700 transition-colors shrink-0">
+                      {page.icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <span className="font-bold text-sm text-zinc-100 group-hover:text-white transition-colors">
+                          {page.title}
+                        </span>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${page.tagColor}`}>
+                          {page.tag}
+                        </span>
+                        {page.isNew && (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-[#f97316] text-white animate-pulse">
+                            NEW
                           </span>
-                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${page.tagColor}`}>
-                            {page.tag}
-                          </span>
-                          {page.isNew && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-[#f97316] text-white animate-pulse">
-                              NEW
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed group-hover:text-zinc-300">
-                          {page.description}
-                        </p>
+                        )}
                       </div>
-                      <ArrowRight className="h-4 w-4 text-zinc-600 group-hover:text-[#f97316] group-hover:translate-x-1 transition-all shrink-0 mt-3 hidden sm:block" />
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* Quick Native Select for Instant Switching / Mobile Fallback */}
-          <div className="sm:w-64">
-            <select
-              value={location.pathname}
-              onChange={handleNativeSelectChange}
-              className="w-full bg-zinc-950 border border-zinc-800 hover:border-zinc-700 px-3 py-3 rounded-xl text-xs font-semibold text-zinc-300 focus:outline-none focus:ring-2 focus:ring-[#f97316]/40 cursor-pointer"
-            >
-              <option value="" disabled>⚡ Quick Jump directly...</option>
-              <option value="/money-supply">🏛️ Global Money Supply (M0, M1, M2, M3)</option>
-              <option value="/cost-vs-wages">⏱️ Cost of Things vs. Wages & Hours Worked</option>
-              <option value="/bitcoin-sound-money">⚡ Bitcoin: Sound Money & Fiat Hedge</option>
-              <option value="/case-studies">🏛️ Historical Case Studies (Weimar, Rome, etc.)</option>
-              <option value="/bitcoin-wallets">🐋 Top 100 Bitcoin Wallets (Live Tracker)</option>
-              <option value="/history">📜 History of Money & Centralization</option>
-              <option value="/inflation">📉 What Is Inflation? (Hidden Tax)</option>
-              <option value="/cbdc">🔒 CBDCs & Programmable Control</option>
-            </select>
-          </div>
-
+                      <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed group-hover:text-zinc-300">
+                        {page.description}
+                      </p>
+                    </div>
+                    <ArrowRight className="h-4 w-4 text-zinc-600 group-hover:text-[#f97316] group-hover:translate-x-1 transition-all shrink-0 mt-3 hidden sm:block" />
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Quick Clickable Chips below the dropdown */}
