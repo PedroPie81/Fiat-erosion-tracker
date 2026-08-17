@@ -270,23 +270,26 @@ const BitcoinSoundMoneyPage: React.FC = () => {
         </section>
 
         {/* Section 2: Interactive Fiat Erosion vs. Bitcoin Simulator */}
-        <section className="bg-gradient-to-br from-zinc-900/90 via-zinc-950 to-zinc-900 border border-zinc-800 rounded-3xl p-8 md:p-10 mb-12">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#f97316] mb-2">
-            <Calculator className="h-4 w-4" /> Interactive Simulation
+        <section className="p-6 sm:p-8 md:p-10 rounded-3xl bg-zinc-950/90 border border-zinc-800 shadow-2xl mb-12 space-y-8">
+          <div className="border-b border-zinc-800/80 pb-6">
+            <div className="flex items-center gap-2 text-[#f97316] text-xs font-extrabold uppercase tracking-widest mb-1">
+              <Calculator className="h-4 w-4" />
+              <span>Interactive Simulation</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              Fiat Currency Erosion vs. Bitcoin Purchasing Power Simulator
+            </h2>
+            <p className="text-sm text-zinc-400 mt-1">
+              Adjust the timeline, estimated real inflation rate, and Bitcoin compound annual growth to observe the divergence in purchasing power over time:
+            </p>
           </div>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">
-            Fiat Currency Erosion vs. Bitcoin Purchasing Power Simulator
-          </h2>
-          <p className="text-zinc-400 text-sm mb-8">
-            Adjust the timeline, estimated real inflation rate, and Bitcoin compound annual growth to observe the divergence in purchasing power over time:
-          </p>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* Controls */}
-            <div className="bg-zinc-950/80 p-6 rounded-2xl border border-zinc-800/80 flex flex-col gap-6">
+            <div className="bg-zinc-900/70 p-6 rounded-2xl border border-zinc-800 flex flex-col gap-6">
               <div>
-                <label className="text-xs uppercase font-bold text-zinc-400 flex justify-between mb-2">
+                <label className="text-xs uppercase font-bold text-zinc-300 flex justify-between mb-2">
                   <span>Initial Capital:</span>
                   <span className="text-white font-mono font-bold">${initialFiatAmount.toLocaleString()}</span>
                 </label>
@@ -302,7 +305,7 @@ const BitcoinSoundMoneyPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-xs uppercase font-bold text-zinc-400 flex justify-between mb-2">
+                <label className="text-xs uppercase font-bold text-zinc-300 flex justify-between mb-2">
                   <span>Holding Horizon:</span>
                   <span className="text-[#f97316] font-mono font-bold">{calculatorYears} Years</span>
                 </label>
@@ -318,7 +321,7 @@ const BitcoinSoundMoneyPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-xs uppercase font-bold text-zinc-400 flex justify-between mb-2">
+                <label className="text-xs uppercase font-bold text-zinc-300 flex justify-between mb-2">
                   <span>Real Fiat Inflation (Annual):</span>
                   <span className="text-rose-400 font-mono font-bold">{annualInflationRate}% / yr</span>
                 </label>
@@ -335,7 +338,7 @@ const BitcoinSoundMoneyPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-xs uppercase font-bold text-zinc-400 flex justify-between mb-2">
+                <label className="text-xs uppercase font-bold text-zinc-300 flex justify-between mb-2">
                   <span>Projected Bitcoin CAGR:</span>
                   <span className="text-amber-400 font-mono font-bold">{btcAnnualCagr}% / yr</span>
                 </label>
@@ -356,7 +359,7 @@ const BitcoinSoundMoneyPage: React.FC = () => {
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
               
               {/* Fiat Scenario */}
-              <div className="bg-zinc-950/90 border border-rose-900/30 p-6 rounded-2xl flex flex-col justify-between">
+              <div className="bg-zinc-900/70 border border-rose-900/30 p-6 rounded-2xl flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
                     <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-400 border border-rose-500/20">
@@ -383,13 +386,13 @@ const BitcoinSoundMoneyPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-zinc-900 text-[11px] text-zinc-500 italic">
+                <div className="mt-6 pt-4 border-t border-zinc-800/60 text-[11px] text-zinc-500 italic">
                   In {calculatorYears} years, your ${initialFiatAmount.toLocaleString()} will buy what ${remainingPurchasingPower.toLocaleString()} buys today.
                 </div>
               </div>
 
               {/* Bitcoin Scenario */}
-              <div className="bg-zinc-950/90 border border-amber-500/30 p-6 rounded-2xl flex flex-col justify-between">
+              <div className="bg-zinc-900/70 border border-amber-500/30 p-6 rounded-2xl flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
                     <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20">
@@ -416,7 +419,7 @@ const BitcoinSoundMoneyPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-zinc-900 text-[11px] text-zinc-500 italic">
+                <div className="mt-6 pt-4 border-t border-zinc-800/60 text-[11px] text-zinc-500 italic">
                   Protected from money supply dilution and sovereign debt monetization.
                 </div>
               </div>

@@ -339,26 +339,30 @@ const CostVsWagesPage: React.FC = () => {
         </div>
 
         {/* Interactive Comparison & Filter Control Bar */}
-        <section className="bg-zinc-900/30 border border-zinc-800/80 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-lg">
+        <section className="p-6 sm:p-8 lg:p-10 rounded-3xl bg-zinc-950/90 border border-zinc-800 shadow-2xl space-y-8">
           
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 pb-8 border-b border-zinc-800/80">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 pb-6 border-b border-zinc-800/80">
             <div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2.5">
-                <Sliders className="h-5 w-5 text-[#f97316]" /> Customize Your Era & Parameters
+              <div className="flex items-center gap-2 text-[#f97316] text-xs font-extrabold uppercase tracking-widest mb-1">
+                <Sliders className="h-4 w-4" />
+                <span>Interactive Labor Simulator</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                Customize Your Era & Parameters
               </h2>
-              <p className="text-xs sm:text-sm text-zinc-400 mt-1">
+              <p className="text-sm text-zinc-400 mt-1">
                 Select your baseline decade, comparison target year, and viewing perspective:
               </p>
             </div>
 
             {/* Decade Selectors */}
-            <div className="flex flex-wrap items-center gap-3 bg-zinc-950/80 p-2 rounded-2xl border border-zinc-800">
+            <div className="flex flex-wrap items-center gap-3 bg-zinc-900 border border-zinc-800 p-2 rounded-2xl">
               <div className="flex items-center gap-2 px-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">Baseline:</span>
                 <select
                   value={baseYear}
                   onChange={(e) => setBaseYear(Number(e.target.value) as SupportedYear)}
-                  className="bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-xs font-bold text-zinc-200 focus:outline-none focus:ring-2 focus:ring-[#f97316] cursor-pointer"
+                  className="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs font-bold text-zinc-200 focus:outline-none focus:ring-2 focus:ring-[#f97316] cursor-pointer"
                 >
                   {YEARS_LIST.filter(y => y < targetYear).map(year => (
                     <option key={year} value={year}>{year} ({dataset.wages[year].label})</option>
@@ -373,7 +377,7 @@ const CostVsWagesPage: React.FC = () => {
                 <select
                   value={targetYear}
                   onChange={(e) => setTargetYear(Number(e.target.value) as SupportedYear)}
-                  className="bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-xs font-bold text-zinc-200 focus:outline-none focus:ring-2 focus:ring-[#f97316] cursor-pointer"
+                  className="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs font-bold text-zinc-200 focus:outline-none focus:ring-2 focus:ring-[#f97316] cursor-pointer"
                 >
                   {YEARS_LIST.filter(y => y > baseYear).map(year => (
                     <option key={year} value={year}>{year} ({dataset.wages[year].label})</option>
@@ -384,10 +388,10 @@ const CostVsWagesPage: React.FC = () => {
           </div>
 
           {/* Personalized Wage Calculator & Display Metric Bar */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
             
             {/* Custom Hourly Wage Input */}
-            <div className="bg-zinc-950/90 p-5 sm:p-6 rounded-2xl border border-zinc-800/90 space-y-3">
+            <div className="bg-zinc-900/70 p-5 sm:p-6 rounded-2xl border border-zinc-800 space-y-3">
               <div className="flex items-center justify-between">
                 <label className="text-xs sm:text-sm font-bold text-zinc-200 flex items-center gap-2">
                   <Calculator className="h-4 w-4 text-[#f97316]" /> 
@@ -415,10 +419,10 @@ const CostVsWagesPage: React.FC = () => {
                     placeholder={`e.g. ${targetWageData.averageHourlyWage.toFixed(2)} (National Avg)`}
                     value={customHourlyWage || ''}
                     onChange={(e) => setCustomHourlyWage(Number(e.target.value))}
-                    className="w-full bg-zinc-900/90 border border-zinc-700/80 rounded-xl pl-9 pr-4 py-2.5 text-sm text-white font-mono focus:outline-none focus:ring-2 focus:ring-[#f97316]"
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-9 pr-4 py-2.5 text-sm text-white font-mono focus:outline-none focus:ring-2 focus:ring-[#f97316]"
                   />
                 </div>
-                <div className="text-xs text-zinc-400 bg-zinc-900/60 px-3 py-2 rounded-xl border border-zinc-800/60 font-medium">
+                <div className="text-xs text-zinc-400 bg-zinc-950 px-3 py-2 rounded-xl border border-zinc-800 font-medium">
                   {customHourlyWage > 0 
                     ? `Estimated: ~${formatMoney(customHourlyWage * 2000)}/yr` 
                     : `Average: ${formatMoney(targetWageData.averageHourlyWage)}/hr`}
@@ -427,11 +431,11 @@ const CostVsWagesPage: React.FC = () => {
             </div>
 
             {/* Display Mode Switcher */}
-            <div className="bg-zinc-950/90 p-5 sm:p-6 rounded-2xl border border-zinc-800/90 space-y-3">
+            <div className="bg-zinc-900/70 p-5 sm:p-6 rounded-2xl border border-zinc-800 space-y-3">
               <span className="text-xs sm:text-sm font-bold text-zinc-200 block uppercase tracking-wider">
                 Display Metric Perspective:
               </span>
-              <div className="grid grid-cols-3 gap-2 bg-zinc-900/80 p-1.5 rounded-xl border border-zinc-800">
+              <div className="grid grid-cols-3 gap-2 bg-zinc-950 p-1.5 rounded-xl border border-zinc-800">
                 <button
                   type="button"
                   onClick={() => setDisplayMode('hours')}
@@ -471,7 +475,7 @@ const CostVsWagesPage: React.FC = () => {
           </div>
 
           {/* Category Filter Pills */}
-          <div className="mt-8 pt-6 border-t border-zinc-800/80">
+          <div className="pt-6 border-t border-zinc-800/80">
             <div className="flex items-center gap-2 overflow-x-auto pb-2 text-xs">
               <span className="text-[11px] uppercase font-bold text-zinc-500 shrink-0 mr-1">Filter Category:</span>
               
@@ -480,7 +484,7 @@ const CostVsWagesPage: React.FC = () => {
                 className={`shrink-0 px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer ${
                   categoryFilter === 'all' 
                     ? 'bg-zinc-100 text-zinc-950 shadow' 
-                    : 'bg-zinc-950 text-zinc-400 hover:text-white border border-zinc-800'
+                    : 'bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800'
                 }`}
               >
                 All Items ({dataset.items.length})
@@ -491,7 +495,7 @@ const CostVsWagesPage: React.FC = () => {
                 className={`shrink-0 px-3.5 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                   categoryFilter === 'housing' 
                     ? 'bg-amber-500 text-zinc-950 shadow' 
-                    : 'bg-zinc-950 text-amber-400 hover:text-white border border-zinc-800'
+                    : 'bg-zinc-900 text-amber-400 hover:text-white border border-zinc-800'
                 }`}
               >
                 <Home className="h-3.5 w-3.5" /> Housing & Shelter
@@ -502,7 +506,7 @@ const CostVsWagesPage: React.FC = () => {
                 className={`shrink-0 px-3.5 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                   categoryFilter === 'education_health' 
                     ? 'bg-blue-500 text-white shadow' 
-                    : 'bg-zinc-950 text-blue-400 hover:text-white border border-zinc-800'
+                    : 'bg-zinc-900 text-blue-400 hover:text-white border border-zinc-800'
                 }`}
               >
                 <GraduationCap className="h-3.5 w-3.5" /> Education & Healthcare
@@ -513,7 +517,7 @@ const CostVsWagesPage: React.FC = () => {
                 className={`shrink-0 px-3.5 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                   categoryFilter === 'transport_energy' 
                     ? 'bg-emerald-500 text-zinc-950 shadow' 
-                    : 'bg-zinc-950 text-emerald-400 hover:text-white border border-zinc-800'
+                    : 'bg-zinc-900 text-emerald-400 hover:text-white border border-zinc-800'
                 }`}
               >
                 <Car className="h-3.5 w-3.5" /> Transport & Fuel
@@ -524,7 +528,7 @@ const CostVsWagesPage: React.FC = () => {
                 className={`shrink-0 px-3.5 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                   categoryFilter === 'food_staples' 
                     ? 'bg-rose-500 text-white shadow' 
-                    : 'bg-zinc-950 text-rose-400 hover:text-white border border-zinc-800'
+                    : 'bg-zinc-900 text-rose-400 hover:text-white border border-zinc-800'
                 }`}
               >
                 <Wheat className="h-3.5 w-3.5" /> Groceries & Food
@@ -535,7 +539,7 @@ const CostVsWagesPage: React.FC = () => {
                 className={`shrink-0 px-3.5 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                   categoryFilter === 'sound_assets' 
                     ? 'bg-[#f97316] text-white shadow' 
-                    : 'bg-zinc-950 text-[#f97316] hover:text-white border border-zinc-800'
+                    : 'bg-zinc-900 text-[#f97316] hover:text-white border border-zinc-800'
                 }`}
               >
                 <Coins className="h-3.5 w-3.5" /> Sound Assets (Gold & BTC)

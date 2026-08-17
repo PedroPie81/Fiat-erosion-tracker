@@ -624,165 +624,160 @@ export const MoneySupplyPage: React.FC = () => {
         </section>
 
         {/* INTERACTIVE M2 DILUTION & SAVINGS EROSION CALCULATOR */}
-        <section className="bg-gradient-to-r from-zinc-900/90 via-zinc-900/60 to-zinc-950/90 border border-zinc-800 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl space-y-8">
-          <div className="space-y-3 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <Calculator className="h-3.5 w-3.5" />
-              <span>Interactive Money Dilution Engine</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Your Savings vs. Central Bank M2 Dilution Calculator
-            </h2>
-            <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
-              When central banks expand the money supply, your fixed dollars, pounds, or euros represent an ever-shrinking percentage of the total economy. Enter a historic savings or salary amount to calculate how severely it has been diluted by unbacked currency creation.
-            </p>
-          </div>
-
-          {/* Calculator Input Controls */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-zinc-950/80 border border-zinc-800/90 p-6 sm:p-8 rounded-2xl">
-            <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-zinc-400">
-                Baseline Historical Year:
-              </label>
-              <select
-                value={calcYear}
-                onChange={(e) => setCalcYear(Number(e.target.value))}
-                className="w-full bg-zinc-900 border border-zinc-700 hover:border-zinc-600 rounded-xl px-4 py-3 text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#f97316]/40 cursor-pointer"
-              >
-                {chartData.map(d => (
-                  <option key={d.year} value={d.year}>
-                    {d.year} — ({d.event})
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-zinc-400">
-                Your Savings or Annual Income in {calcYear} ({currentConfig.symbol}):
-              </label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 font-bold">
-                  {currentConfig.symbol}
-                </span>
-                <input
-                  type="number"
-                  value={calcAmount}
-                  onChange={(e) => setCalcAmount(Math.max(1, Number(e.target.value)))}
-                  className="w-full bg-zinc-900 border border-zinc-700 hover:border-zinc-600 rounded-xl pl-8 pr-4 py-3 text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#f97316]/40"
-                  placeholder="10000"
-                />
+        <section className="p-6 sm:p-8 rounded-3xl bg-zinc-950/90 border border-zinc-800 shadow-2xl space-y-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800/80 pb-6">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 text-emerald-400 text-xs font-extrabold uppercase tracking-widest mb-1">
+                <Calculator className="h-4 w-4" />
+                <span>Interactive Money Dilution Engine</span>
               </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                Your Savings vs. Central Bank M2 Dilution Calculator
+              </h2>
+              <p className="text-sm text-zinc-400 mt-1">
+                When central banks expand the money supply, your fixed dollars, pounds, or euros represent an ever-shrinking percentage of the total economy. Enter a historic savings or salary amount to calculate how severely it has been diluted.
+              </p>
             </div>
           </div>
 
-          {/* Calculator Output KPI Result Box */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 bg-gradient-to-b from-zinc-950 to-zinc-900 border border-zinc-800 p-6 sm:p-8 rounded-2xl">
-            <div className="space-y-1">
-              <div className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
-                Total M2 Supply Expansion
+          {/* Calculator Input Controls & Results */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Input 1: Base Year & Amount */}
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block">
+                  Baseline Historical Year
+                </label>
+                <select
+                  value={calcYear}
+                  onChange={(e) => setCalcYear(Number(e.target.value))}
+                  className="w-full bg-zinc-900 border border-zinc-800 focus:border-emerald-500 rounded-xl px-4 py-3 text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 cursor-pointer"
+                >
+                  {chartData.map(d => (
+                    <option key={d.year} value={d.year}>
+                      {d.year} — ({d.event})
+                    </option>
+                  ))}
+                </select>
               </div>
-              <div className="text-2xl sm:text-3xl font-extrabold text-amber-400">
-                {(currentM2 / historicM2).toFixed(1)}x
-              </div>
-              <div className="text-xs text-zinc-500">
-                Grew from {formatCurrencyValue(historicM2)} to {formatCurrencyValue(currentM2)}
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider flex items-center justify-between">
+                  <span>Savings / Income in {calcYear}</span>
+                  <span className="text-emerald-400 font-mono">
+                    {currentConfig.symbol}{calcAmount.toLocaleString()}
+                  </span>
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 font-bold">
+                    {currentConfig.symbol}
+                  </span>
+                  <input
+                    type="number"
+                    value={calcAmount}
+                    onChange={(e) => setCalcAmount(Math.max(1, Number(e.target.value)))}
+                    className="w-full bg-zinc-900 border border-zinc-800 focus:border-emerald-500 px-4 py-3 pl-8 rounded-xl text-white font-mono font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                    placeholder="10000"
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="space-y-1">
+            {/* Quick Result 1: M2 Parity Today */}
+            <div className="p-4 rounded-2xl bg-zinc-900/70 border border-zinc-800 flex flex-col justify-between">
               <div className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
                 M2 Money Supply Parity Today
               </div>
-              <div className="text-2xl sm:text-3xl font-extrabold text-[#f97316]">
+              <div className="text-3xl sm:text-4xl font-black text-[#f97316] my-1">
                 {currentConfig.symbol}{Math.round(equivalentAmountToday).toLocaleString()}
               </div>
-              <div className="text-xs text-zinc-500">
-                To maintain the exact same proportion of circulating broad money
+              <div className="text-xs text-zinc-400">
+                Supply expanded <strong className="text-amber-300">{(currentM2 / historicM2).toFixed(1)}x</strong> (from {formatCurrencyValue(historicM2)} to {formatCurrencyValue(currentM2)}).
               </div>
             </div>
 
-            <div className="space-y-1">
+            {/* Quick Result 2: Effective Dilution Loss */}
+            <div className="p-4 rounded-2xl bg-zinc-900/70 border border-zinc-800 flex flex-col justify-between">
               <div className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
-                Effective M2 Dilution Loss
+                Effective Dilution Loss
               </div>
-              <div className="text-2xl sm:text-3xl font-extrabold text-rose-500">
+              <div className="text-3xl sm:text-4xl font-black text-rose-400 my-1">
                 -{dilutionLossPercentage}%
               </div>
-              <div className="text-xs text-zinc-500">
-                Loss of monetary claim against total circulating supply
+              <div className="text-xs text-zinc-400">
+                Loss of monetary claim against total circulating supply since {calcYear}.
               </div>
             </div>
           </div>
 
           {/* Side-by-Side Comparison: Why M2 Parity is Different from CPI Inflation */}
-          <div className="space-y-4 pt-2">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
+          <div className="space-y-4 pt-4 border-t border-zinc-800/80">
+            <h3 className="text-sm font-bold text-zinc-200 uppercase tracking-wider flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-amber-400" />
               <span>Comparing {currentConfig.symbol}{calcAmount.toLocaleString()} ({calcYear}) Across Different Inflation Benchmarks</span>
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
               {/* 1. M2 Money Supply Parity */}
-              <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-2">
+              <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800/80 space-y-2">
                 <div className="text-[11px] font-extrabold uppercase tracking-wider text-amber-400 flex items-center justify-between">
                   <span>🏛️ M2 Money Supply Parity</span>
-                  <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">
+                  <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px]">
                     {(currentM2 / historicM2).toFixed(1)}x
                   </span>
                 </div>
-                <div className="text-2xl font-black text-white">
+                <div className="text-xl font-extrabold text-white font-mono">
                   {currentConfig.symbol}{Math.round(equivalentAmountToday).toLocaleString()}
                 </div>
-                <p className="text-xs text-zinc-400 leading-relaxed">
+                <p className="text-[11px] text-zinc-400 leading-relaxed">
                   Required capital today to hold the <strong>exact same fraction</strong> of all circulating money and bank credit in the economy.
                 </p>
               </div>
 
               {/* 2. Official CPI Consumer Price Index */}
-              <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-2">
+              <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800/80 space-y-2">
                 <div className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-400 flex items-center justify-between">
                   <span>🛒 Official CPI Inflation</span>
-                  <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">
+                  <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px]">
                     {selectedCurrency === 'GBP' ? '16.5x' : selectedCurrency === 'USD' ? '7.9x' : selectedCurrency === 'EUR' ? '10.5x' : '12.0x'}
                   </span>
                 </div>
-                <div className="text-2xl font-black text-emerald-400">
+                <div className="text-xl font-extrabold text-emerald-400 font-mono">
                   {currentConfig.symbol}{Math.round(calcAmount * (selectedCurrency === 'GBP' ? 16.5 : selectedCurrency === 'USD' ? 7.9 : selectedCurrency === 'EUR' ? 10.5 : 12.0) * (calcYear === 1971 ? 1 : calcYear <= 1980 ? 0.35 : calcYear <= 2000 ? 0.55 : 0.75)).toLocaleString()}
                 </div>
-                <p className="text-xs text-zinc-400 leading-relaxed">
-                  Amount needed to purchase government-defined consumer basket of goods (food staples, fuel, hedonically adjusted retail).
+                <p className="text-[11px] text-zinc-400 leading-relaxed">
+                  Amount needed to purchase government-defined consumer basket of goods (food staples, fuel, retail).
                 </p>
               </div>
 
               {/* 3. Real Estate / Housing Parity */}
-              <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-2">
+              <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800/80 space-y-2">
                 <div className="text-[11px] font-extrabold uppercase tracking-wider text-blue-400 flex items-center justify-between">
                   <span>🏠 Real Estate / Housing</span>
-                  <span className="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono">
+                  <span className="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px]">
                     {selectedCurrency === 'GBP' ? '51.5x' : selectedCurrency === 'USD' ? '16.7x' : '28.0x'}
                   </span>
                 </div>
-                <div className="text-2xl font-black text-blue-400">
+                <div className="text-xl font-extrabold text-blue-400 font-mono">
                   {currentConfig.symbol}{Math.round(calcAmount * (selectedCurrency === 'GBP' ? 51.5 : selectedCurrency === 'USD' ? 16.7 : 28.0) * (calcYear === 1971 ? 1 : calcYear <= 1980 ? 0.38 : calcYear <= 2000 ? 0.6 : 0.8)).toLocaleString()}
                 </div>
-                <p className="text-xs text-zinc-400 leading-relaxed">
+                <p className="text-[11px] text-zinc-400 leading-relaxed">
                   Amount needed to purchase the same physical square footage of average residential real estate.
                 </p>
               </div>
 
               {/* 4. Physical Gold Benchmark */}
-              <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-2">
+              <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800/80 space-y-2">
                 <div className="text-[11px] font-extrabold uppercase tracking-wider text-yellow-400 flex items-center justify-between">
                   <span>🪙 Physical Gold Parity</span>
-                  <span className="px-1.5 py-0.5 rounded bg-yellow-500/20 text-yellow-300 font-mono">
+                  <span className="px-1.5 py-0.5 rounded bg-yellow-500/20 text-yellow-300 font-mono text-[10px]">
                     {selectedCurrency === 'GBP' ? '155x' : '82.6x'}
                   </span>
                 </div>
-                <div className="text-2xl font-black text-yellow-400">
+                <div className="text-xl font-extrabold text-yellow-400 font-mono">
                   {currentConfig.symbol}{Math.round(calcAmount * (selectedCurrency === 'GBP' ? 155 : 82.6) * (calcYear === 1971 ? 1 : calcYear <= 1980 ? 0.28 : calcYear <= 2000 ? 0.45 : 0.65)).toLocaleString()}
                 </div>
-                <p className="text-xs text-zinc-400 leading-relaxed">
+                <p className="text-[11px] text-zinc-400 leading-relaxed">
                   Amount needed to buy the exact same weight in troy ounces of physical gold as in {calcYear}.
                 </p>
               </div>
