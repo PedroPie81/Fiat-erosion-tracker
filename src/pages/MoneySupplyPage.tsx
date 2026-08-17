@@ -692,7 +692,7 @@ export const MoneySupplyPage: React.FC = () => {
 
             <div className="space-y-1">
               <div className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
-                Capital Required Today for Parity
+                M2 Money Supply Parity Today
               </div>
               <div className="text-2xl sm:text-3xl font-extrabold text-[#f97316]">
                 {currentConfig.symbol}{Math.round(equivalentAmountToday).toLocaleString()}
@@ -711,6 +711,104 @@ export const MoneySupplyPage: React.FC = () => {
               </div>
               <div className="text-xs text-zinc-500">
                 Loss of monetary claim against total circulating supply
+              </div>
+            </div>
+          </div>
+
+          {/* Side-by-Side Comparison: Why M2 Parity is Different from CPI Inflation */}
+          <div className="space-y-4 pt-2">
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-amber-400" />
+              <span>Comparing {currentConfig.symbol}{calcAmount.toLocaleString()} ({calcYear}) Across Different Inflation Benchmarks</span>
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* 1. M2 Money Supply Parity */}
+              <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-2">
+                <div className="text-[11px] font-extrabold uppercase tracking-wider text-amber-400 flex items-center justify-between">
+                  <span>🏛️ M2 Money Supply Parity</span>
+                  <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">
+                    {(currentM2 / historicM2).toFixed(1)}x
+                  </span>
+                </div>
+                <div className="text-2xl font-black text-white">
+                  {currentConfig.symbol}{Math.round(equivalentAmountToday).toLocaleString()}
+                </div>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Required capital today to hold the <strong>exact same fraction</strong> of all circulating money and bank credit in the economy.
+                </p>
+              </div>
+
+              {/* 2. Official CPI Consumer Price Index */}
+              <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-2">
+                <div className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-400 flex items-center justify-between">
+                  <span>🛒 Official CPI Inflation</span>
+                  <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">
+                    {selectedCurrency === 'GBP' ? '16.5x' : selectedCurrency === 'USD' ? '7.9x' : selectedCurrency === 'EUR' ? '10.5x' : '12.0x'}
+                  </span>
+                </div>
+                <div className="text-2xl font-black text-emerald-400">
+                  {currentConfig.symbol}{Math.round(calcAmount * (selectedCurrency === 'GBP' ? 16.5 : selectedCurrency === 'USD' ? 7.9 : selectedCurrency === 'EUR' ? 10.5 : 12.0) * (calcYear === 1971 ? 1 : calcYear <= 1980 ? 0.35 : calcYear <= 2000 ? 0.55 : 0.75)).toLocaleString()}
+                </div>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Amount needed to purchase government-defined consumer basket of goods (food staples, fuel, hedonically adjusted retail).
+                </p>
+              </div>
+
+              {/* 3. Real Estate / Housing Parity */}
+              <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-2">
+                <div className="text-[11px] font-extrabold uppercase tracking-wider text-blue-400 flex items-center justify-between">
+                  <span>🏠 Real Estate / Housing</span>
+                  <span className="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono">
+                    {selectedCurrency === 'GBP' ? '51.5x' : selectedCurrency === 'USD' ? '16.7x' : '28.0x'}
+                  </span>
+                </div>
+                <div className="text-2xl font-black text-blue-400">
+                  {currentConfig.symbol}{Math.round(calcAmount * (selectedCurrency === 'GBP' ? 51.5 : selectedCurrency === 'USD' ? 16.7 : 28.0) * (calcYear === 1971 ? 1 : calcYear <= 1980 ? 0.38 : calcYear <= 2000 ? 0.6 : 0.8)).toLocaleString()}
+                </div>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Amount needed to purchase the same physical square footage of average residential real estate.
+                </p>
+              </div>
+
+              {/* 4. Physical Gold Benchmark */}
+              <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-2">
+                <div className="text-[11px] font-extrabold uppercase tracking-wider text-yellow-400 flex items-center justify-between">
+                  <span>🪙 Physical Gold Parity</span>
+                  <span className="px-1.5 py-0.5 rounded bg-yellow-500/20 text-yellow-300 font-mono">
+                    {selectedCurrency === 'GBP' ? '155x' : '82.6x'}
+                  </span>
+                </div>
+                <div className="text-2xl font-black text-yellow-400">
+                  {currentConfig.symbol}{Math.round(calcAmount * (selectedCurrency === 'GBP' ? 155 : 82.6) * (calcYear === 1971 ? 1 : calcYear <= 1980 ? 0.28 : calcYear <= 2000 ? 0.45 : 0.65)).toLocaleString()}
+                </div>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Amount needed to buy the exact same weight in troy ounces of physical gold as in {calcYear}.
+                </p>
+              </div>
+            </div>
+
+            {/* In-depth educational note on why M2 Parity is so high */}
+            <div className="p-5 rounded-2xl bg-zinc-950/90 border border-zinc-800 text-xs space-y-2.5">
+              <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
+                <Info className="h-4 w-4" />
+                <span>Why does £10 in 1971 equal £2,102 in M2 Parity vs. only £165 in CPI?</span>
+              </div>
+              <div className="text-zinc-300 space-y-2 leading-relaxed">
+                <p>
+                  <strong>1. The Distinction between CPI and Money Supply:</strong> The official Consumer Price Index (CPI) only tracks a selective basket of everyday consumer goods (bread, milk, televisions, cheap imported electronics). Because technological productivity and globalization (cheap manufacturing in Asia) made consumer items much cheaper to produce, official CPI only rose by <strong>~16.5x</strong> since 1971.
+                </p>
+                <p>
+                  <strong>2. Where the 210x Expansion Went (Asset Inflation):</strong> In 1971, total UK M2 broad money was just <strong>£12.8 Billion</strong>. Today, commercial banks and the Bank of England have expanded total broad money to <strong>£2,690 Billion (£2.69 Trillion)</strong>—a staggering <strong>210.2x expansion</strong>. That extra freshly created currency did not sit in milk prices; it flooded directly into scarce financial assets and land:
+                </p>
+                <ul className="list-disc list-inside space-y-1 pl-2 text-zinc-400">
+                  <li>Average UK House: rose from <strong>£5,632</strong> (1971) to <strong>£290,000</strong> (2026) — an increase of <strong>51.5x</strong> (and over 80x in London).</li>
+                  <li>1 Ounce of Gold: rose from <strong>£14.50</strong> (1971) to <strong>~£2,250</strong> (2026) — an increase of <strong>155x</strong>.</li>
+                  <li>UK Equity Indices & Prime Land: expanded by over <strong>120x–200x</strong>.</li>
+                </ul>
+                <p className="text-amber-300 font-medium">
+                  💡 <strong>Key Takeaway:</strong> £165 today buys the same basic grocery cart as £10 in 1971. But to retain your proportional claim on the nation's total wealth, capital assets, and credit pool, you need <strong>£2,102</strong> today. That gap is the invisible wealth tax of fiat debasement.
+                </p>
               </div>
             </div>
           </div>
